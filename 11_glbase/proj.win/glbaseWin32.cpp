@@ -25,11 +25,11 @@ extern int app_draw();
 #define	WINDOW_CLASS_NAME "PVRShellClass"
 
 // Name of the application
-#define APPLICATION_NAME "ReadPixel"
+#define APPLICATION_NAME "opengl es 2.0 base"
 
 // Width and height of the window
-const unsigned int WindowWidth  = 800;
-const unsigned int WindowHeight = 600;
+const unsigned int WindowWidth  = 1280;
+const unsigned int WindowHeight = 768;
 
 HWND g_nativeWindow = NULL;
 void* NativeWindow() { return g_nativeWindow; }
@@ -369,7 +369,7 @@ int main(int argc, char** argv)
 	EGLSurface			eglSurface = NULL;
 	EGLContext			eglContext = NULL;
 
-	do 
+	do
 	{
 		// Setup the windowing system, getting a window and a display
 		if (!createWindowAndDisplay(applicationInstance, g_nativeWindow, deviceContext))

@@ -48,9 +48,9 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>Classes</name>
+			<name>classes</name>
 			<type>2</type>
-			<locationURI>PARENT-1-PROJECT_LOC/src</locationURI>
+			<locationURI>PARENT-1-PROJECT_LOC/classes</locationURI>
 		</link>
 	</linkedResources>
 </projectDescription>
