@@ -26,9 +26,10 @@ bool checkGLError(const char* functionLastCalled)
 {
 	int error;
 	bool ret = false;
-	while((error = glGetError()) != GL_NO_ERROR) {
+	while(error = glGetError()) {
 		//WinErrorMessageBox(functionLastCalled, error);
-
+		if(error == GL_INVALID_ENUM)
+			break;
 		LOGI("after %s() glError (0x%X)\n", functionLastCalled, error);
 		ret = true;
 	}
@@ -126,7 +127,7 @@ void GLTexture::BindStage(int stage, int filterMinMag, int wrapMode)
 	int  wrap  =  wrapMode     ? wrapMode     : m_wrap;
 
 	glActiveTexture(GL_TEXTURE0 + stage);
-	glEnable(GL_TEXTURE_2D);
+	//glEnable(GL_TEXTURE_2D);													W/Adreno-ES20(19516): <get_simple_queries:1544>: GL_INVALID_ENUM
 	glBindTexture(GL_TEXTURE_2D, m_tex);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter);
@@ -139,9 +140,9 @@ void GLTexture::UnBindStage(int stage)
 {
 	glActiveTexture(GL_TEXTURE0 + stage);
 	glBindTexture(GL_TEXTURE_2D, 0);
+	//if(0 == stage)
+	//	glDisable(GL_TEXTURE_2D);												W/Adreno-ES20(19516): <get_simple_queries:1544>: GL_INVALID_ENUM
 
-	if(0 == stage)
-		glDisable(GL_TEXTURE_2D);
 }
 
 int GLTexture::SetPixel(int w, int h, int f, int t, void* pxl)
@@ -416,9 +417,6 @@ GLFBO::GLFBO(int width, int height)
 	: m_tex(0)
 	, m_rnd(0)
 	, m_frm(0)
-	, store_tex(0)
-	, store_rnd(0)
-	, store_frm(0)
 	, gl_prog(0)
 	, us_tx0(0)
 {
@@ -519,6 +517,7 @@ void GLFBO::begin()
 {
 	glGetIntegerv(GL_FRAMEBUFFER, &store_frm);
 	glBindFramebuffer(GL_FRAMEBUFFER, m_frm);							// binding Framebuffer
+	checkGLError("GLFBO::begin()");
 }
 
 void GLFBO::end()

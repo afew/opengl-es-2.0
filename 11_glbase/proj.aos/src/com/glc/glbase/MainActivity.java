@@ -69,6 +69,10 @@ public class MainActivity extends Activity
 	{
 		MainActivity.init((Object)MainActivity.main_ast, MainActivity.dsp_w, MainActivity.dsp_h);
 	}
+	public void appDestroy()
+	{
+		Util.LOGD("appDestroy: ");
+	}
 	public void appDisplaySize(int width, int height)
 	{
 		Util.LOGD("with: " + width + "  height: " + height);
