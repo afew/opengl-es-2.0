@@ -16,5 +16,5 @@ LOCAL_LDLIBS    := -llog -lGLESv2 -landroid
 include $(BUILD_SHARED_LIBRARY)
 
 
-$(call import-add-path,$(LOCAL_PATH)/../../src)
-$(call import-module,.)
+$(call import-add-path,$(LOCAL_PATH)/../..)
+$(call import-module,classes)
