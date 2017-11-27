@@ -21,13 +21,13 @@
     <ClInclude Include="..\_pvr_sdk\Windows\Resources\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\App.h">
+    <ClInclude Include="..\classes\App.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\app_util.h">
+    <ClInclude Include="..\classes\app_util.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\ogl_util.h">
+    <ClInclude Include="..\classes\ogl_util.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -37,13 +37,13 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\App.cpp">
+    <ClCompile Include="..\classes\App.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\app_util.cpp">
+    <ClCompile Include="..\classes\app_util.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\ogl_util.cpp">
+    <ClCompile Include="..\classes\ogl_util.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="glbaseWin32.cpp" />

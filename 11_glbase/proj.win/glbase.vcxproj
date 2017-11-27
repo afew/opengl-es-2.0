@@ -85,16 +85,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\App.cpp" />
-    <ClCompile Include="..\src\app_util.cpp" />
-    <ClCompile Include="..\src\ogl_util.cpp" />
+    <ClCompile Include="..\classes\App.cpp" />
+    <ClCompile Include="..\classes\app_util.cpp" />
+    <ClCompile Include="..\classes\ogl_util.cpp" />
     <ClCompile Include="glbaseWin32.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\_pvr_sdk\Windows\Resources\resource.h" />
-    <ClInclude Include="..\src\App.h" />
-    <ClInclude Include="..\src\app_util.h" />
-    <ClInclude Include="..\src\ogl_util.h" />
+    <ClInclude Include="..\classes\App.h" />
+    <ClInclude Include="..\classes\app_util.h" />
+    <ClInclude Include="..\classes\ogl_util.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\_pvr_sdk\Windows\Resources\shared.rc" />
