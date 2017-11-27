@@ -92,6 +92,7 @@ copy LcEuclid.h ..\include</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="LcBase.cpp" />
     <ClCompile Include="LcEuclid.cpp" />
     <ClCompile Include="LcMath.cpp" />
     <ClCompile Include="LcMath2.cpp" />

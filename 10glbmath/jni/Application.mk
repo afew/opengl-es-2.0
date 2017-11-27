@@ -7,5 +7,5 @@ APP_CPPFLAGS += -marm -march=armv5te -mtune=xscale -msoft-float
 APP_OPTIM    := release
 
 APP_SHORT_COMMANDS := true
-APP_CPPFLAGS += -fpermissive
+APP_CPPFLAGS += -fpermissive -std=c++11
 

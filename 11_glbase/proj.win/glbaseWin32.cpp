@@ -7,6 +7,13 @@
               Entry Point: WinMain
 ***********************************************************************************************************************/
 
+#if defined(_DEBUG)
+  #pragma comment(lib, "lgpwn_math30_.lib")
+#else
+  #pragma comment(lib, "lgpwn_math30.lib")
+#endif
+
+
 #include <windows.h>
 #include <stdio.h>
 

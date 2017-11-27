@@ -15,6 +15,8 @@
 #include "app_util.h"
 #include "App.h"
 
+#include "LcMath.h"
+
 static App* g_app = NULL;
 int app_init()
 {
@@ -100,11 +102,11 @@ int App::Init()
 	glGetIntegerv(GL_VIEWPORT, vpt);
 	m_fbo = GLFBO::create(vpt[2], vpt[3]);
 
-	float vertexData[] =
+	LCXVECTOR3 vertexData[] =
 	{
-		-0.3f, -0.3f, 0.0f,
-		 0.3f, -0.3f, 0.0f,
-		 0.0f,  0.3f, 0.0f
+		LCXVECTOR3(-0.3f, -0.3f, 0.0f),
+		LCXVECTOR3( 0.3f, -0.3f, 0.0f),
+		LCXVECTOR3( 0.0f,  0.3f, 0.0f),
 	};
 
 	glGenBuffers(1, &gl_vtx);
@@ -145,19 +147,19 @@ int App::Render()
 
 	// texture
 	{
-		float Pos[] =
+		LCXVECTOR2 Pos[] =
 		{
-			-1.0F, +0.0F,
-			 0.0F, +0.0F,
-			 0.0F, +1.0F,
-			-1.0F, +1.0F,
+			LCXVECTOR2(-1.0F, +0.0F),
+			LCXVECTOR2( 0.0F, +0.0F),
+			LCXVECTOR2( 0.0F, +1.0F),
+			LCXVECTOR2(-1.0F, +1.0F),
 		};
-		float Tex[] =
+		LCXVECTOR2 Tex[] =
 		{
-			0.0F, 0.0F,
-			1.0F, 0.0F,
-			1.0F, 1.0F,
-			0.0F, 1.0F,
+			LCXVECTOR2(0.0F, 0.0F),
+			LCXVECTOR2(1.0F, 0.0F),
+			LCXVECTOR2(1.0F, 1.0F),
+			LCXVECTOR2(0.0F, 1.0F),
 		};
 
 		m_prog_multi->BeginProgram();
@@ -165,8 +167,8 @@ int App::Render()
 		m_prog_multi->Texture("us_tx0", 0, m_tx0);
 		m_prog_multi->Texture("us_tx1", 1, m_tx1);
 
-		glEnableVertexAttribArray(0);	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, Pos);
-		glEnableVertexAttribArray(1);	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, Tex);
+		glEnableVertexAttribArray(0);	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, &Pos[0]);
+		glEnableVertexAttribArray(1);	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, &Tex[0]);
 
 		glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
