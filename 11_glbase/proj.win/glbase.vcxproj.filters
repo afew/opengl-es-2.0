@@ -49,16 +49,22 @@
     <ClCompile Include="glbaseWin32.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\_media\shader\multi_tex2d.frag">
+    <None Include="..\media\shader\multi_tex2d.frag">
       <Filter>shader</Filter>
     </None>
-    <None Include="..\_media\shader\multi_tex2d.vert">
+    <None Include="..\media\shader\multi_tex2d.vert">
       <Filter>shader</Filter>
     </None>
-    <None Include="..\_media\shader\tex2d.frag">
+    <None Include="..\media\shader\simple.frag">
       <Filter>shader</Filter>
     </None>
-    <None Include="..\_media\shader\tex2d.vert">
+    <None Include="..\media\shader\simple.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="..\media\shader\tex2d.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="..\media\shader\tex2d.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>

@@ -164,10 +164,10 @@ extern int app_draw();
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
 	[view bindDrawable];
-	if([self initialized])
-	{
-		app_draw();
-	}
+	if(![self initialized])
+        return;
+
+    app_draw();
 }
 
 @end

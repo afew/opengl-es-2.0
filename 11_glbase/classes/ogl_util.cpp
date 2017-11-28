@@ -1,4 +1,4 @@
-
+﻿
 #include <vector>
 #include <string>
 #ifdef _WIN32
@@ -26,7 +26,7 @@ bool checkGLError(const char* functionLastCalled)
 {
 	int error;
 	bool ret = false;
-	while(error = glGetError()) {
+	while(GL_NO_ERROR != (error = glGetError())) {
 		//WinErrorMessageBox(functionLastCalled, error);
 		if(error == GL_INVALID_ENUM)
 			break;
@@ -247,7 +247,7 @@ int GLProgram::Init(const char* vertexShaderSource, const char* fragmentShaderSo
 	glAttachShader(m_prog, m_vert);
 	glAttachShader(m_prog, m_frag);
 
-	glBindAttribLocation(m_prog, 0, "att_pos");
+	glBindAttribLocation(m_prog, 0, "at_pos");
 
 	GLint isLinked;
 	glLinkProgram(m_prog);
@@ -417,45 +417,16 @@ GLFBO::GLFBO(int width, int height)
 	: m_tex(0)
 	, m_rnd(0)
 	, m_frm(0)
-	, gl_prog(0)
-	, us_tx0(0)
+	, m_prg(NULL)
 {
 	Init(width, height);
 }
 
 int GLFBO::Init(int w, int h)
 {
-	const std::string shd_vtx =
-		"precision mediump float;					\n"
-		"											\n"
-		"attribute vec4 att_pos;					\n"
-		"attribute vec2 att_tx0;					\n"
-		"											\n"
-		"varying   vec2 var_tx0;					\n"
-		"											\n"
-		"void main() {								\n"
-		"											\n"
-		"  var_tx0     = att_tx0;					\n"
-		"  gl_Position = att_pos;					\n"
-		"}											\n";
-
-	const std::string shd_frg =
-		"precision mediump float;					\n"
-		"											\n"
-		"varying   vec2 var_tx0;					\n"
-		"											\n"
-		"uniform   sampler2D us_tx0;				\n"
-		"											\n"
-		"void main() {								\n"
-		"											\n"
-		"  vec4 dif  = texture2D(us_tx0, var_tx0);	\n"
-		"  gl_FragColor = vec4(dif.rgb, 1.0);		\n"
-		"}											\n";
-
-	gl_prog  = CreateProgram(shd_vtx, shd_frg);
-	if(0>=gl_prog)
+	m_prg = GLProgram::createFromFile("media/shader/tex2d.vert", "media/shader/tex2d.frag");
+	if(!m_prg)
 		return -1;
-	us_tx0 = glGetUniformLocation(gl_prog, "us_tx0");
 
 	glGetIntegerv(GL_TEXTURE_2D, &store_tex);
 	glGetIntegerv(GL_RENDERBUFFER, &store_rnd);
@@ -467,10 +438,7 @@ int GLFBO::Init(int w, int h)
 
 	glBindTexture(GL_TEXTURE_2D, m_tex);
 	{
-		void* buf = malloc(w*h*4);
-		memset(buf, 0x99, w*h*4);
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, buf);
-		free(buf);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
@@ -511,12 +479,13 @@ void GLFBO::Destroy()
 		glDeleteTextures(1, (GLuint*)m_tex);
 		m_tex = 0;
 	}
+	SAFE_DELETE(m_prg);
 }
 
 void GLFBO::begin()
 {
 	glGetIntegerv(GL_FRAMEBUFFER, &store_frm);
-	glBindFramebuffer(GL_FRAMEBUFFER, m_frm);							// binding Framebuffer
+	glBindFramebuffer(GL_FRAMEBUFFER, m_frm);
 	checkGLError("GLFBO::begin()");
 }
 
@@ -527,7 +496,7 @@ void GLFBO::end()
 
 void GLFBO::draw()
 {
-	glUseProgram(gl_prog);
+	m_prg->BeginProgram();
 
 	float vtx_pos[] =
 	{
@@ -551,7 +520,7 @@ void GLFBO::draw()
 	glActiveTexture(GL_TEXTURE0 + nStage);
 	glBindTexture(GL_TEXTURE_2D, m_tex);
 
-	glUniform1i(us_tx0, nStage);
+	m_prg->Int("us_tx0", nStage);
 
 	glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
@@ -593,7 +562,7 @@ int GLFBO::CreateProgram(const std::string& pVertexSource, const std::string& pF
 
 	glAttachShader(program, vertexShader);
 	glAttachShader(program, pixelShader);
-	glBindAttribLocation(program, 0, "att_pos");
+	glBindAttribLocation(program, 0, "at_pos");
 
 	glLinkProgram(program);
 	int isLinked = 0;

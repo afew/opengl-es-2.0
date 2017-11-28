@@ -100,10 +100,12 @@
     <ResourceCompile Include="..\_pvr_sdk\Windows\Resources\shared.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\_media\shader\multi_tex2d.frag" />
-    <None Include="..\_media\shader\multi_tex2d.vert" />
-    <None Include="..\_media\shader\tex2d.frag" />
-    <None Include="..\_media\shader\tex2d.vert" />
+    <None Include="..\media\shader\multi_tex2d.frag" />
+    <None Include="..\media\shader\multi_tex2d.vert" />
+    <None Include="..\media\shader\simple.frag" />
+    <None Include="..\media\shader\simple.vert" />
+    <None Include="..\media\shader\tex2d.frag" />
+    <None Include="..\media\shader\tex2d.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

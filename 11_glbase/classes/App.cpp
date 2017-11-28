@@ -1,4 +1,4 @@
-
+﻿
 #include <vector>
 #include <stdio.h>
 #include <math.h>
@@ -192,15 +192,11 @@ int App::Render()
 			angle = 0;
 
 		float r= float(angle * 3.14159265358979 /180.0);
-		const float transformationMatrix[] =
-		{
-			+cosf(r), -sinf(r), 0.0f, 0.0f,
-			+sinf(r), +cosf(r), 0.0f, 0.0f,
-			    0.0f,     0.0f, 1.0f, 0.0f,
-			    0.0f,     0.0f, 0.0f, 1.0f
-		};
 
-		if(0>m_prog_tri->Matrix16("transformationMatrix", transformationMatrix))
+		LCXMATRIX tmWld;
+
+		tmWld.RotationZ(r);
+		if(0>m_prog_tri->Matrix16("um_tmWorld", tmWld))
 		{
 			return -1;
 		}
@@ -243,11 +239,12 @@ int App::Render()
 	//glReadPixels(0, 0, 800, 600, GL_RGBA, GL_UNSIGNED_BYTE, m_work_pixel);
 	//m_fbo->SetPixel(800, 600, GL_RGBA, GL_UNSIGNED_BYTE, m_work_pixel);
 
-	glClearColor(0.4f, 0.0f, 1.0f, 1.0f);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	m_fbo->draw();
-
+	f(true)
+	{
+		glClearColor(0.4f, 0.0f, 1.0f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		m_fbo->draw();
+	}
 	return 0;
 }
 

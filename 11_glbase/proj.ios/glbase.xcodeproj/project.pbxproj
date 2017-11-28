@@ -7,9 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3363D79A1FC3B358009A8DFD /* App.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3363D7941FC3B358009A8DFD /* App.cpp */; };
-		3363D79B1FC3B358009A8DFD /* app_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3363D7961FC3B358009A8DFD /* app_util.cpp */; };
-		3363D79C1FC3B358009A8DFD /* ogl_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3363D7981FC3B358009A8DFD /* ogl_util.cpp */; };
+		330D383B1FCCE58B003184BF /* Android.mk in Resources */ = {isa = PBXBuildFile; fileRef = 330D38331FCCE58A003184BF /* Android.mk */; };
+		330D383C1FCCE58B003184BF /* App.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 330D38341FCCE58A003184BF /* App.cpp */; };
+		330D383D1FCCE58B003184BF /* app_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 330D38361FCCE58A003184BF /* app_util.cpp */; };
+		330D383E1FCCE58B003184BF /* app_util.mm in Sources */ = {isa = PBXBuildFile; fileRef = 330D38381FCCE58A003184BF /* app_util.mm */; };
+		330D383F1FCCE58B003184BF /* ogl_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 330D38391FCCE58A003184BF /* ogl_util.cpp */; };
+		330D38511FCCE5AC003184BF /* 10glbmath.sln in Resources */ = {isa = PBXBuildFile; fileRef = 330D38411FCCE5AC003184BF /* 10glbmath.sln */; };
+		330D38521FCCE5AC003184BF /* 10glbmath.vcxproj in Resources */ = {isa = PBXBuildFile; fileRef = 330D38421FCCE5AC003184BF /* 10glbmath.vcxproj */; };
+		330D38531FCCE5AC003184BF /* 10glbmath.vcxproj.filters in Resources */ = {isa = PBXBuildFile; fileRef = 330D38431FCCE5AC003184BF /* 10glbmath.vcxproj.filters */; };
+		330D38541FCCE5AC003184BF /* 10glbmath.vcxproj.user in Resources */ = {isa = PBXBuildFile; fileRef = 330D38441FCCE5AC003184BF /* 10glbmath.vcxproj.user */; };
+		330D38551FCCE5AC003184BF /* Android.mk in Resources */ = {isa = PBXBuildFile; fileRef = 330D38461FCCE5AC003184BF /* Android.mk */; };
+		330D38561FCCE5AC003184BF /* Application.mk in Resources */ = {isa = PBXBuildFile; fileRef = 330D38471FCCE5AC003184BF /* Application.mk */; };
+		330D38571FCCE5AC003184BF /* LcBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 330D38481FCCE5AC003184BF /* LcBase.cpp */; };
+		330D38581FCCE5AC003184BF /* LcEuclid.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 330D384A1FCCE5AC003184BF /* LcEuclid.cpp */; };
+		330D38591FCCE5AC003184BF /* LcMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 330D384C1FCCE5AC003184BF /* LcMath.cpp */; };
+		330D385A1FCCE5AC003184BF /* LcMath2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 330D384E1FCCE5AC003184BF /* LcMath2.cpp */; };
+		330D385B1FCCE5AC003184BF /* zni.bat in Resources */ = {isa = PBXBuildFile; fileRef = 330D38501FCCE5AC003184BF /* zni.bat */; };
 		3363D7C21FC3B3FE009A8DFD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3363D7B61FC3B3FE009A8DFD /* AppDelegate.m */; };
 		3363D7C31FC3B3FE009A8DFD /* Main_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3363D7B71FC3B3FE009A8DFD /* Main_iPad.storyboard */; };
 		3363D7C41FC3B3FE009A8DFD /* Main_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3363D7B91FC3B3FE009A8DFD /* Main_iPhone.storyboard */; };
@@ -18,7 +31,6 @@
 		3363D7C71FC3B3FE009A8DFD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3363D7BE1FC3B3FE009A8DFD /* Images.xcassets */; };
 		3363D7C81FC3B3FE009A8DFD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3363D7BF1FC3B3FE009A8DFD /* main.m */; };
 		3363D7C91FC3B3FE009A8DFD /* ViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3363D7C11FC3B3FE009A8DFD /* ViewController.mm */; };
-		3363D7CB1FC3B522009A8DFD /* app_util.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3363D7CA1FC3B522009A8DFD /* app_util.mm */; };
 		3363D7CD1FC3F975009A8DFD /* media in Resources */ = {isa = PBXBuildFile; fileRef = 3363D7CC1FC3F974009A8DFD /* media */; };
 		339000A11FBD7FED0079FF0F /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 339000A01FBD7FE60079FF0F /* OpenAL.framework */; };
 		339000D71FBD86850079FF0F /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 339000D61FBD86850079FF0F /* libiconv.tbd */; };
@@ -41,12 +53,29 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		3363D7941FC3B358009A8DFD /* App.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = App.cpp; sourceTree = "<group>"; };
-		3363D7951FC3B358009A8DFD /* App.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = App.h; sourceTree = "<group>"; };
-		3363D7961FC3B358009A8DFD /* app_util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = app_util.cpp; sourceTree = "<group>"; };
-		3363D7971FC3B358009A8DFD /* app_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = app_util.h; sourceTree = "<group>"; };
-		3363D7981FC3B358009A8DFD /* ogl_util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ogl_util.cpp; sourceTree = "<group>"; };
-		3363D7991FC3B358009A8DFD /* ogl_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ogl_util.h; sourceTree = "<group>"; };
+		330D38331FCCE58A003184BF /* Android.mk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Android.mk; sourceTree = "<group>"; };
+		330D38341FCCE58A003184BF /* App.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = App.cpp; sourceTree = "<group>"; };
+		330D38351FCCE58A003184BF /* App.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = App.h; sourceTree = "<group>"; };
+		330D38361FCCE58A003184BF /* app_util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = app_util.cpp; sourceTree = "<group>"; };
+		330D38371FCCE58A003184BF /* app_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = app_util.h; sourceTree = "<group>"; };
+		330D38381FCCE58A003184BF /* app_util.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = app_util.mm; sourceTree = "<group>"; };
+		330D38391FCCE58A003184BF /* ogl_util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ogl_util.cpp; sourceTree = "<group>"; };
+		330D383A1FCCE58A003184BF /* ogl_util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ogl_util.h; sourceTree = "<group>"; };
+		330D38411FCCE5AC003184BF /* 10glbmath.sln */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = 10glbmath.sln; sourceTree = "<group>"; };
+		330D38421FCCE5AC003184BF /* 10glbmath.vcxproj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = 10glbmath.vcxproj; sourceTree = "<group>"; };
+		330D38431FCCE5AC003184BF /* 10glbmath.vcxproj.filters */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = 10glbmath.vcxproj.filters; sourceTree = "<group>"; };
+		330D38441FCCE5AC003184BF /* 10glbmath.vcxproj.user */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = 10glbmath.vcxproj.user; sourceTree = "<group>"; };
+		330D38461FCCE5AC003184BF /* Android.mk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Android.mk; sourceTree = "<group>"; };
+		330D38471FCCE5AC003184BF /* Application.mk */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Application.mk; sourceTree = "<group>"; };
+		330D38481FCCE5AC003184BF /* LcBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LcBase.cpp; sourceTree = "<group>"; };
+		330D38491FCCE5AC003184BF /* LcBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LcBase.h; sourceTree = "<group>"; };
+		330D384A1FCCE5AC003184BF /* LcEuclid.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LcEuclid.cpp; sourceTree = "<group>"; };
+		330D384B1FCCE5AC003184BF /* LcEuclid.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LcEuclid.h; sourceTree = "<group>"; };
+		330D384C1FCCE5AC003184BF /* LcMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LcMath.cpp; sourceTree = "<group>"; };
+		330D384D1FCCE5AC003184BF /* LcMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LcMath.h; sourceTree = "<group>"; };
+		330D384E1FCCE5AC003184BF /* LcMath2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = LcMath2.cpp; sourceTree = "<group>"; };
+		330D384F1FCCE5AC003184BF /* LcType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LcType.h; sourceTree = "<group>"; };
+		330D38501FCCE5AC003184BF /* zni.bat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = zni.bat; sourceTree = "<group>"; };
 		3363D7B51FC3B3FE009A8DFD /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		3363D7B61FC3B3FE009A8DFD /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		3363D7B81FC3B3FE009A8DFD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main_iPad.storyboard; sourceTree = "<group>"; };
@@ -57,7 +86,6 @@
 		3363D7BF1FC3B3FE009A8DFD /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3363D7C01FC3B3FE009A8DFD /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		3363D7C11FC3B3FE009A8DFD /* ViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ViewController.mm; sourceTree = "<group>"; };
-		3363D7CA1FC3B522009A8DFD /* app_util.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = app_util.mm; sourceTree = "<group>"; };
 		3363D7CC1FC3F974009A8DFD /* media */ = {isa = PBXFileReference; lastKnownFileType = folder; name = media; path = ../media; sourceTree = "<group>"; };
 		339000A01FBD7FE60079FF0F /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		339000D61FBD86850079FF0F /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
@@ -109,19 +137,51 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		3363D7931FC3B358009A8DFD /* src */ = {
+		330D38321FCCE58A003184BF /* classes */ = {
 			isa = PBXGroup;
 			children = (
-				3363D7CA1FC3B522009A8DFD /* app_util.mm */,
-				3363D7941FC3B358009A8DFD /* App.cpp */,
-				3363D7951FC3B358009A8DFD /* App.h */,
-				3363D7961FC3B358009A8DFD /* app_util.cpp */,
-				3363D7971FC3B358009A8DFD /* app_util.h */,
-				3363D7981FC3B358009A8DFD /* ogl_util.cpp */,
-				3363D7991FC3B358009A8DFD /* ogl_util.h */,
+				330D38331FCCE58A003184BF /* Android.mk */,
+				330D38341FCCE58A003184BF /* App.cpp */,
+				330D38351FCCE58A003184BF /* App.h */,
+				330D38361FCCE58A003184BF /* app_util.cpp */,
+				330D38371FCCE58A003184BF /* app_util.h */,
+				330D38381FCCE58A003184BF /* app_util.mm */,
+				330D38391FCCE58A003184BF /* ogl_util.cpp */,
+				330D383A1FCCE58A003184BF /* ogl_util.h */,
 			);
-			name = src;
-			path = ../src;
+			name = classes;
+			path = ../classes;
+			sourceTree = "<group>";
+		};
+		330D38401FCCE5AC003184BF /* 10glbmath */ = {
+			isa = PBXGroup;
+			children = (
+				330D38411FCCE5AC003184BF /* 10glbmath.sln */,
+				330D38421FCCE5AC003184BF /* 10glbmath.vcxproj */,
+				330D38431FCCE5AC003184BF /* 10glbmath.vcxproj.filters */,
+				330D38441FCCE5AC003184BF /* 10glbmath.vcxproj.user */,
+				330D38451FCCE5AC003184BF /* jni */,
+				330D38481FCCE5AC003184BF /* LcBase.cpp */,
+				330D38491FCCE5AC003184BF /* LcBase.h */,
+				330D384A1FCCE5AC003184BF /* LcEuclid.cpp */,
+				330D384B1FCCE5AC003184BF /* LcEuclid.h */,
+				330D384C1FCCE5AC003184BF /* LcMath.cpp */,
+				330D384D1FCCE5AC003184BF /* LcMath.h */,
+				330D384E1FCCE5AC003184BF /* LcMath2.cpp */,
+				330D384F1FCCE5AC003184BF /* LcType.h */,
+				330D38501FCCE5AC003184BF /* zni.bat */,
+			);
+			name = 10glbmath;
+			path = ../../10glbmath;
+			sourceTree = "<group>";
+		};
+		330D38451FCCE5AC003184BF /* jni */ = {
+			isa = PBXGroup;
+			children = (
+				330D38461FCCE5AC003184BF /* Android.mk */,
+				330D38471FCCE5AC003184BF /* Application.mk */,
+			);
+			path = jni;
 			sourceTree = "<group>";
 		};
 		3363D7B41FC3B3FE009A8DFD /* ios */ = {
@@ -144,7 +204,8 @@
 		7626522917F10E6C007CCD43 = {
 			isa = PBXGroup;
 			children = (
-				3363D7931FC3B358009A8DFD /* src */,
+				330D38401FCCE5AC003184BF /* 10glbmath */,
+				330D38321FCCE58A003184BF /* classes */,
 				3363D7CC1FC3F974009A8DFD /* media */,
 				3363D7B41FC3B3FE009A8DFD /* ios */,
 				7626523417F10E6C007CCD43 /* Frameworks */,
@@ -216,7 +277,7 @@
 				TargetAttributes = {
 					7626523117F10E6C007CCD43 = {
 						DevelopmentTeam = FYHWTNXVGB;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -243,10 +304,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				330D38531FCCE5AC003184BF /* 10glbmath.vcxproj.filters in Resources */,
+				330D38511FCCE5AC003184BF /* 10glbmath.sln in Resources */,
 				3363D7C61FC3B3FE009A8DFD /* glbase-Info.plist in Resources */,
+				330D38521FCCE5AC003184BF /* 10glbmath.vcxproj in Resources */,
+				330D38541FCCE5AC003184BF /* 10glbmath.vcxproj.user in Resources */,
+				330D38551FCCE5AC003184BF /* Android.mk in Resources */,
+				330D38561FCCE5AC003184BF /* Application.mk in Resources */,
 				3363D7C51FC3B3FE009A8DFD /* InfoPlist.strings in Resources */,
 				3363D7C71FC3B3FE009A8DFD /* Images.xcassets in Resources */,
 				3363D7CD1FC3F975009A8DFD /* media in Resources */,
+				330D383B1FCCE58B003184BF /* Android.mk in Resources */,
+				330D385B1FCCE5AC003184BF /* zni.bat in Resources */,
 				3363D7C31FC3B3FE009A8DFD /* Main_iPad.storyboard in Resources */,
 				3363D7C41FC3B3FE009A8DFD /* Main_iPhone.storyboard in Resources */,
 			);
@@ -260,12 +329,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				3363D7C81FC3B3FE009A8DFD /* main.m in Sources */,
-				3363D7CB1FC3B522009A8DFD /* app_util.mm in Sources */,
+				330D385A1FCCE5AC003184BF /* LcMath2.cpp in Sources */,
+				330D383C1FCCE58B003184BF /* App.cpp in Sources */,
+				330D383D1FCCE58B003184BF /* app_util.cpp in Sources */,
 				3363D7C21FC3B3FE009A8DFD /* AppDelegate.m in Sources */,
+				330D38591FCCE5AC003184BF /* LcMath.cpp in Sources */,
 				3363D7C91FC3B3FE009A8DFD /* ViewController.mm in Sources */,
-				3363D79C1FC3B358009A8DFD /* ogl_util.cpp in Sources */,
-				3363D79A1FC3B358009A8DFD /* App.cpp in Sources */,
-				3363D79B1FC3B358009A8DFD /* app_util.cpp in Sources */,
+				330D38571FCCE5AC003184BF /* LcBase.cpp in Sources */,
+				330D383F1FCCE58B003184BF /* ogl_util.cpp in Sources */,
+				330D38581FCCE5AC003184BF /* LcEuclid.cpp in Sources */,
+				330D383E1FCCE58B003184BF /* app_util.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -332,7 +405,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../**";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../**";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
@@ -369,7 +442,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = "$(SRCROOT)/../**";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/../../**";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 				SDKROOT = iphoneos;
@@ -385,14 +458,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = FYHWTNXVGB;
 				INFOPLIST_FILE = "ios/glbase-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.glc.glbasex;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "3518c129-f0a6-4050-8af1-b8ccc9c7d0f1";
+				PROVISIONING_PROFILE_SPECIFIER = "N2Play Studio Dev : *";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -403,13 +476,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = FYHWTNXVGB;
 				INFOPLIST_FILE = "ios/glbase-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.glc.glbasex;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "3518c129-f0a6-4050-8af1-b8ccc9c7d0f1";
+				PROVISIONING_PROFILE_SPECIFIER = "N2Play Studio Dev : *";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

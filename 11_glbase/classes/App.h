@@ -15,7 +15,7 @@ protected:
 	GLTexture*		m_tx1;
 	GLFBO	*		m_fbo;
 	unsigned int	gl_vtx;
-	
+
 public:
 	static App* getInstance();
 	App();
