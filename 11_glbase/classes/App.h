@@ -4,7 +4,7 @@
 #define _App_H_
 
 #include "ogl_util.h"
-#include "Cube.h"
+#include "Dice.h"
 
 class App
 {
@@ -17,7 +17,7 @@ protected:
 	GLFBO	*		m_fbo;
 	unsigned int	gl_vtx;
 
-	Cube*			m_cube;
+	Dice*			m_cube;
 
 public:
 	static App* getInstance();

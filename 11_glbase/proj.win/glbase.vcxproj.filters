@@ -30,7 +30,7 @@
     <ClInclude Include="..\classes\ogl_util.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\classes\Cube.h">
+    <ClInclude Include="..\classes\Dice.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -50,7 +50,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="glbaseWin32.cpp" />
-    <ClCompile Include="..\classes\Cube.cpp">
+    <ClCompile Include="..\classes\Dice.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -77,6 +77,12 @@
       <Filter>shader</Filter>
     </None>
     <None Include="..\media\shader\tex2d.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="..\media\shader\dice.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="..\media\shader\dice.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>

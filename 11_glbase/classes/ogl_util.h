@@ -99,8 +99,6 @@ public:
 protected:
 	int Init(int w, int h);
 	void Destroy();
-	int LoadShader(int, const char*);
-	int CreateProgram(const std::string&, const std::string&);
 };
 
 #endif

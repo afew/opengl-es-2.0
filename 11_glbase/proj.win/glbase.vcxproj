@@ -87,12 +87,12 @@
   <ItemGroup>
     <ClCompile Include="..\classes\App.cpp" />
     <ClCompile Include="..\classes\app_util.cpp" />
-    <ClCompile Include="..\classes\Cube.cpp" />
+    <ClCompile Include="..\classes\Dice.cpp" />
     <ClCompile Include="..\classes\ogl_util.cpp" />
     <ClCompile Include="glbaseWin32.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\classes\Cube.h" />
+    <ClInclude Include="..\classes\Dice.h" />
     <ClInclude Include="..\_pvr_sdk\Windows\Resources\resource.h" />
     <ClInclude Include="..\classes\App.h" />
     <ClInclude Include="..\classes\app_util.h" />
@@ -102,6 +102,8 @@
     <ResourceCompile Include="..\_pvr_sdk\Windows\Resources\shared.rc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\media\shader\dice.frag" />
+    <None Include="..\media\shader\dice.vert" />
     <None Include="..\media\shader\multi_tex2d.frag" />
     <None Include="..\media\shader\multi_tex2d.vert" />
     <None Include="..\media\shader\simple.frag" />

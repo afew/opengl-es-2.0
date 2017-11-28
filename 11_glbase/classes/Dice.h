@@ -7,16 +7,26 @@
 #include "LcType.h"
 #include "LcMath.h"
 
-class Cube
+struct Mesh
+{
+	UINT pos, nor, tex;		// position, normal, texture id
+	UINT idx;				// index id
+};
+
+class Dice
 {
 protected:
-	GLProgram*		m_prog_3d;
+	GLProgram*		m_prg  ={};
+	GLTexture*		m_tx0  ={};		// diffuse
+	GLTexture*		m_tx1  ={};		// normal
+	Mesh			m_mesh ={};
+
 	LCXMATRIX		m_mtViw;
 	LCXMATRIX		m_mtPrj;
 
 public:
-	Cube();
-	virtual ~Cube();
+	Dice();
+	virtual ~Dice();
 
 	virtual int Init();
 	virtual int Destroy();

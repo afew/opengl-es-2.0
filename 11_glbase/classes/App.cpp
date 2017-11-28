@@ -91,7 +91,7 @@ int App::Init()
 	if(!m_prog_tex)
 		return -1;
 
-	m_cube = new Cube;
+	m_cube = new Dice;
 	if(0> m_cube->Init())
 		return -1;
 
@@ -124,9 +124,9 @@ int App::Destroy()
 {
 	if(gl_vtx) { glDeleteBuffers(1, &gl_vtx); gl_vtx = 0; }
 	SAFE_DELETE(m_prog_tri);
-	SAFE_DELETE(m_prog_multi)
-	SAFE_DELETE(m_prog_tex)
-	SAFE_DELETE(m_tx0)
+	SAFE_DELETE(m_prog_multi);
+	SAFE_DELETE(m_prog_tex);
+	SAFE_DELETE(m_tx0);
 	SAFE_DELETE(m_fbo);
 	return 0;
 }
