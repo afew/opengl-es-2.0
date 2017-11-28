@@ -4,6 +4,7 @@
 #define _App_H_
 
 #include "ogl_util.h"
+#include "Cube.h"
 
 class App
 {
@@ -15,6 +16,8 @@ protected:
 	GLTexture*		m_tx1;
 	GLFBO	*		m_fbo;
 	unsigned int	gl_vtx;
+
+	Cube*			m_cube;
 
 public:
 	static App* getInstance();

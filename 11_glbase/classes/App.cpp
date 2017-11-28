@@ -68,6 +68,7 @@ App::App()
 	, m_tx0(0)
 	, m_tx1(0)
 	, m_fbo(0)
+	, m_cube(0)
 {
 }
 
@@ -78,24 +79,22 @@ App::~App()
 
 int App::Init()
 {
-	LOGI("App::Init() 0-------------------------------------------------------");
-	//char* cc = ([](size_t s)->char*{ char* r = (char*)malloc(s); memset(r, 0, s); return r; })(100);
-
 	m_prog_tri = GLProgram::createFromFile("media/shader/simple.vert", "media/shader/simple.frag");
 	if(!m_prog_tri)
 		return -1;
 
-	LOGI("App::Init() 1-------------------------------------------------------");
 	m_prog_multi = GLProgram::createFromFile("media/shader/multi_tex2d.vert", "media/shader/multi_tex2d.frag");
 	if(!m_prog_multi)
 		return -1;
 
-	LOGI("App::Init() 2-------------------------------------------------------");
 	m_prog_tex = GLProgram::createFromFile("media/shader/tex2d.vert", "media/shader/tex2d.frag");
 	if(!m_prog_tex)
 		return -1;
 
-	LOGI("App::Init() 3-------------------------------------------------------");
+	m_cube = new Cube;
+	if(0> m_cube->Init())
+		return -1;
+
 	m_tx0= GLTexture::createFromFile("media/texture/stones.tga");
 	if(!m_tx0)
 		return -1;
@@ -151,6 +150,7 @@ int App::Render()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	// texture
+	if(false)
 	{
 		LCXVECTOR2 Pos[] =
 		{
@@ -184,6 +184,7 @@ int App::Render()
 	}
 
 	// triangle
+	if(false)
 	{
 		m_prog_tri->BeginProgram();
 		static int angle =0;
@@ -192,6 +193,13 @@ int App::Render()
 			angle = 0;
 
 		float r= float(angle * 3.14159265358979 /180.0);
+		const float transformationMatrix[] =
+		{
+			+cosf(r), -sinf(r), 0.0f, 0.0f,
+			+sinf(r), +cosf(r), 0.0f, 0.0f,
+			    0.0f,     0.0f, 1.0f, 0.0f,
+			    0.0f,     0.0f, 0.0f, 1.0f
+		};
 
 		LCXMATRIX tmWld;
 
@@ -234,12 +242,16 @@ int App::Render()
 		m_prog_tri->EndProgram();
 	}
 
+	
+		m_cube->FrameMove();
+		m_cube->Render();
+
 	m_fbo->end();
 
 	//glReadPixels(0, 0, 800, 600, GL_RGBA, GL_UNSIGNED_BYTE, m_work_pixel);
 	//m_fbo->SetPixel(800, 600, GL_RGBA, GL_UNSIGNED_BYTE, m_work_pixel);
 
-	f(true)
+	if(true)
 	{
 		glClearColor(0.4f, 0.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
