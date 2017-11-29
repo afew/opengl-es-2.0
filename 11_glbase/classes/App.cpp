@@ -142,7 +142,7 @@ int App::Render()
 	int error;
 	while((error = glGetError()) != GL_NO_ERROR);
 
-	m_fbo->begin();
+	//m_fbo->begin();
 	glClearColor(0.0f, 0.4f, 0.6f, 1.0f);
 	glEnable(GL_BLEND);
 	glBlendEquation(GL_FUNC_ADD);
@@ -242,16 +242,16 @@ int App::Render()
 		m_prog_tri->EndProgram();
 	}
 
-	
+
 		m_cube->FrameMove();
 		m_cube->Render();
 
-	m_fbo->end();
+	//m_fbo->end();
 
 	//glReadPixels(0, 0, 800, 600, GL_RGBA, GL_UNSIGNED_BYTE, m_work_pixel);
 	//m_fbo->SetPixel(800, 600, GL_RGBA, GL_UNSIGNED_BYTE, m_work_pixel);
 
-	if(true)
+	if(false)
 	{
 		glClearColor(0.4f, 0.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

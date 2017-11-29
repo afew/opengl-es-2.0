@@ -21,11 +21,7 @@ extern void setAAssetManager(void* assm);
 
 bool setupGraphics(int w, int h)
 {
-	printGLString("Version", GL_VERSION);
-	printGLString("Vendor", GL_VENDOR);
-	printGLString("Renderer", GL_RENDERER);
-	printGLString("Extensions", GL_EXTENSIONS);
-
+	LOGI("glViewport: %d %d", w, h);
 	glViewport(0, 0, w, h);
 	return true;
 }

@@ -5,13 +5,14 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.3.3'
+        classpath 'com.android.tools.build:gradle:3.0.1'
     }
 }
 
 allprojects {
     repositories {
         jcenter()
+        maven { url "https://maven.google.com" }
     }
 }
 
@@ -20,12 +21,21 @@ apply plugin: 'com.android.application'
 File pvrSdkDir = file("${project.buildDir}/../../../../../../../")
 
 android {
+    signingConfigs {
+        glbase {
+            keyAlias 'glbase'
+            keyPassword 'rkfflr314'
+            storeFile file('E:/_document/GitHub/opengl-es-2.0/11_glbase/proj.ast/glbasekey.keystore')
+            storePassword 'rkfflr314'
+        }
+    }
     compileSdkVersion 18
-    buildToolsVersion '25.0.3'
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.glc.glbase"
         minSdkVersion 18
         targetSdkVersion 18
+        signingConfig signingConfigs.glbase
     }
     buildTypes {
         release {
@@ -34,6 +44,9 @@ android {
         }
         debug {
             jniDebuggable true
+            debuggable true
+            signingConfig signingConfigs.glbase
+            renderscriptDebuggable true
         }
     }
     sourceSets {
@@ -86,7 +99,20 @@ android {
     preBuild.dependsOn copyAssets
     productFlavors {
     }
+    dexOptions {
+        incremental true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_6
+        targetCompatibility JavaVersion.VERSION_1_6
+    }
 }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
+
+    implementation  "com.google.android.gms:play-services-auth:11.6.0"
+    implementation  "com.google.android.gms:play-services-base:11.6.0"
+    implementation  "com.google.android.gms:play-services-identity:11.6.0"
+    implementation  "com.google.android.gms:play-services-gcm:11.6.0"
+    implementation  "com.google.android.gms:play-services-games:11.6.0"
 }

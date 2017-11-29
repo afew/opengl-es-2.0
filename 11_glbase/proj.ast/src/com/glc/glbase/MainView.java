@@ -1,14 +1,16 @@
 package com.glc.glbase;
 
-import javax.microedition.khronos.egl.*;
-import javax.microedition.khronos.opengles.GL10;
+import org.egl14.*;
+import android.opengl.*;
+//import javax.microedition.khronos.egl.*;
+//import javax.microedition.khronos.opengles.GL10;
 
 import android.content.Context;
-import android.opengl.GLSurfaceView;
+//import android.opengl.GLSurfaceView;
 import android.util.Log;
 
 
-class MainView extends GLSurfaceView {
+class MainView extends GLSurfaceViewEGL14 {
 	static final int EGL_CONTEXT_CLIENT_VERSION = 0x3098;
 	static final int EGL_OPENGL_ES2_BIT = 4;
 	static final int EGL_RECORDABLE_ANDROID = 0x00003142;		// API 26
@@ -17,10 +19,10 @@ class MainView extends GLSurfaceView {
 	public EGLSurface input_srf = null;
 	private EGLSurface m_cur_srf = null;
 
-	private static boolean checkEglError(EGL10 egl, String msg) {
+	private static boolean checkEglError(String msg) {
 		int error;
 		boolean ret = false;
-		while ((error = egl.eglGetError()) != EGL10.EGL_SUCCESS) {
+		while ((error = EGL14.eglGetError()) != EGL14.EGL_SUCCESS) {
 			Log.e(TAG, String.format("%s: EGL error: 0x%x", msg, error));
 			ret = true;
 		}
@@ -30,42 +32,46 @@ class MainView extends GLSurfaceView {
 	public MainView(Context context) {
 		super(context);
 		setEGLContextFactory(new ContextFactory());
-		setEGLConfigChooser( new ConfigChooser() );
+		//setEGLConfigChooser( new ConfigChooser() );
 		setRenderer(new Renderer());
 	}
 
-	private static class ContextFactory implements GLSurfaceView.EGLContextFactory 	{
-		public EGLContext createContext(EGL10 egl, EGLDisplay display, EGLConfig eglConfig) {
+	private static class ContextFactory implements GLSurfaceViewEGL14.EGLContextFactory 	{
+		public EGLContext createContext(EGLDisplay display, EGLConfig eglConfig) {
 			Log.w(TAG, "creating OpenGL ES 2.0 context");
-			if(checkEglError(egl, "Before eglCreateContext"))
+			if(checkEglError("Before eglCreateContext"))
 				return null;
 
-			int[] attrib_list = { EGL_CONTEXT_CLIENT_VERSION, 2, EGL10.EGL_NONE };
-			EGLContext context = egl.eglCreateContext(display, eglConfig, EGL10.EGL_NO_CONTEXT, attrib_list);
-			if(checkEglError(egl, "After eglCreateContext"))
+			int[] attrib_list = { EGL_CONTEXT_CLIENT_VERSION, 2, EGL14.EGL_NONE };
+			EGLContext context = EGL14.eglCreateContext(display, eglConfig, EGL14.EGL_NO_CONTEXT, attrib_list, 0);
+			if(checkEglError("After eglCreateContext"))
 				return null;
 
 			return context;
 		}
 
-		public void destroyContext(EGL10 egl, EGLDisplay display, EGLContext context) {
-			egl.eglDestroyContext(display, context);
-			checkEglError(egl,"eglDestroyContext");
+		public void destroyContext(EGLDisplay display, EGLContext context) {
+			EGL14.eglDestroyContext(display, context);
+			checkEglError("eglDestroyContext");
 		}
 	}
 
-	private static class Renderer implements GLSurfaceView.Renderer {
-		public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+	private static class Renderer implements IRendererEGL14 {
+		public void onSurfaceCreated() {
 			MainActivity.main_act.appInit();
 		}
-		public void onSurfaceChanged(GL10 gl, final int width, final int height) {
+		public void onSurfaceChanged(final int width, final int height) {
 			MainActivity.main_act.appDisplaySize(width, height);
 		}
-		public void onDrawFrame(GL10 gl) {
+		public void onDrawFrame() {
 			MainActivity.main_act.appDraw();
+		}
+		public void onDestroy() {
+			MainActivity.main_act.appDestroy();
 		}
 	}
 
+	/*
 	private static class ConfigChooser implements GLSurfaceView.EGLConfigChooser {
 		public ConfigChooser() {
 			mRedSize   = 8;
@@ -126,17 +132,18 @@ class MainView extends GLSurfaceView {
 		protected int mStencilSize;
 		private int[] mValue = new int[1];
 	}
+	*/
 
-	private static class SurfaceFactory implements GLSurfaceView.EGLWindowSurfaceFactory {
-		public EGLSurface createWindowSurface(EGL10 egl, EGLDisplay display, EGLConfig config, Object nativeWindow) {
-			int[] surfaceAttribs = { EGL10.EGL_NONE };
-			EGLSurface eglSurface = egl.eglCreateWindowSurface(display, config, nativeWindow, surfaceAttribs);
-			checkEglError(egl, "eglCreateWindowSurface");
+	private static class SurfaceFactory implements GLSurfaceViewEGL14.EGLWindowSurfaceFactory {
+		public EGLSurface createWindowSurface(EGLDisplay display, EGLConfig config, Object nativeWindow) {
+			int[] surfaceAttribs = { EGL14.EGL_NONE };
+			EGLSurface eglSurface = EGL14.eglCreateWindowSurface(display, config, nativeWindow, surfaceAttribs, 0);
+			checkEglError("eglCreateWindowSurface");
 			return eglSurface;
 		}
-		public void destroySurface(EGL10 egl, EGLDisplay display, EGLSurface surface) {
-			egl.eglDestroySurface(display, surface);
-			checkEglError(egl, "eglDestroySurface");
+		public void destroySurface(EGLDisplay display, EGLSurface surface) {
+			EGL14.eglDestroySurface(display, surface);
+			checkEglError("eglDestroySurface");
 		}
 	}
 }
