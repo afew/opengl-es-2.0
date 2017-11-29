@@ -33,6 +33,9 @@
     <ClInclude Include="..\classes\Dice.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\classes\MultiTex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\_pvr_sdk\Windows\Resources\shared.rc">
@@ -51,6 +54,9 @@
     </ClCompile>
     <ClCompile Include="glbaseWin32.cpp" />
     <ClCompile Include="..\classes\Dice.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\classes\MultiTex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

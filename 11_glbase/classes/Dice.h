@@ -13,7 +13,7 @@ struct Mesh
 	UINT idx;				// index id
 };
 
-class Dice
+class Dice : public RenderObject
 {
 protected:
 	GLProgram*		m_prg  ={};
@@ -28,10 +28,10 @@ public:
 	Dice();
 	virtual ~Dice();
 
-	virtual int Init();
-	virtual int Destroy();
-	virtual int FrameMove();
-	virtual int Render();
+	virtual int Init() override;
+	virtual int Destroy() override;
+	virtual int FrameMove() override;
+	virtual int Render() override;
 };
 
 #endif

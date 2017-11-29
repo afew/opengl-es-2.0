@@ -88,11 +88,13 @@
     <ClCompile Include="..\classes\App.cpp" />
     <ClCompile Include="..\classes\app_util.cpp" />
     <ClCompile Include="..\classes\Dice.cpp" />
+    <ClCompile Include="..\classes\MultiTex.cpp" />
     <ClCompile Include="..\classes\ogl_util.cpp" />
     <ClCompile Include="glbaseWin32.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\classes\Dice.h" />
+    <ClInclude Include="..\classes\MultiTex.h" />
     <ClInclude Include="..\_pvr_sdk\Windows\Resources\resource.h" />
     <ClInclude Include="..\classes\App.h" />
     <ClInclude Include="..\classes\app_util.h" />

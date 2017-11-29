@@ -1,24 +1,22 @@
 ﻿#pragma once
 
-#ifndef _App_H_
-#define _App_H_
+#ifndef _MultiTex_H_
+#define _MultiTex_H_
 
 #include "ogl_util.h"
 #include "LcType.h"
 #include "LcMath.h"
 
-
-class App : public RenderObject
+class MultiTex : public RenderObject
 {
 protected:
-	GLFBO*			m_fbo;
-	RenderObject*	m_cube ={};
-	RenderObject*	m_multi ={};
+	GLProgram*		m_prg;
+	GLTexture*		m_tx0;
+	GLTexture*		m_tx1;
 
 public:
-	static App* getInstance();
-	App();
-	virtual ~App();
+	MultiTex();
+	virtual ~MultiTex();
 
 	virtual int Init() override;
 	virtual int Destroy() override;

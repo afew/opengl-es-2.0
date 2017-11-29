@@ -5,7 +5,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:2.3.3'
     }
 }
 
@@ -25,7 +25,7 @@ android {
         glbase {
             keyAlias 'glbase'
             keyPassword 'rkfflr314'
-            storeFile file('E:/_document/GitHub/opengl-es-2.0/11_glbase/proj.ast/glbasekey.keystore')
+            storeFile file('glbasekey.keystore')
             storePassword 'rkfflr314'
         }
     }
@@ -109,10 +109,9 @@ android {
 }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-
-    implementation  "com.google.android.gms:play-services-auth:11.6.0"
-    implementation  "com.google.android.gms:play-services-base:11.6.0"
-    implementation  "com.google.android.gms:play-services-identity:11.6.0"
-    implementation  "com.google.android.gms:play-services-gcm:11.6.0"
-    implementation  "com.google.android.gms:play-services-games:11.6.0"
+    compile 'com.google.android.gms:play-services-auth:11.6.0'
+    compile 'com.google.android.gms:play-services-base:11.6.0'
+    compile 'com.google.android.gms:play-services-identity:11.6.0'
+    compile 'com.google.android.gms:play-services-gcm:11.6.0'
+    compile 'com.google.android.gms:play-services-games:11.6.0'
 }

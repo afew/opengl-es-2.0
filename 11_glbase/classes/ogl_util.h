@@ -15,6 +15,15 @@
 void printGLString(const char *name, int s);
 bool checkGLError(const char* functionLastCalled);
 
+struct RenderObject
+{
+	virtual ~RenderObject(){};
+	virtual int Init() =0;
+	virtual int Destroy() =0;
+	virtual int FrameMove() =0;
+	virtual int Render() =0;
+};
+
 class GLTexture
 {
 protected:
