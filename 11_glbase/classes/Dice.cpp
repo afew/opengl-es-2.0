@@ -145,8 +145,8 @@ int	Dice::Render()
 	LCXVECTOR3	pos(0, 0, 0.F);
 
 	mtS.Scaling(3,3,3);
-	mtZ.RotationZ( LCXToRadian((float)(45) ));
-	mtX.RotationX( LCXToRadian((float)(90) ));
+	mtZ.RotationZ( LCXToRadian((float)(c) ));
+	mtX.RotationX( LCXToRadian((float)(c) ));
 	mtY.RotationY( LCXToRadian((float)(c*2) ));
 	mtWld = mtX*mtZ;
 	mtWld *= mtS;
@@ -160,8 +160,8 @@ int	Dice::Render()
 	glEnable( GL_CULL_FACE );
 
 
-	LCXVECTOR3 lgt_dir(  0.707F, 0.707F, 0);
-	LCXCOLOR   lgt_dif(1.6F,   1.2F, 0.8, 1.0F);
+	LCXVECTOR3 lgt_dir(  -0.707F, -0.707F, 0);
+	LCXCOLOR   lgt_dif(1.8F,   0.6F, 1.2F, 1.0F);
 
 	LCXVECTOR3	eye(0, -20, 0);
 	LCXVECTOR3	look(0,0,0);
