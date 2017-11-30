@@ -11,41 +11,36 @@ uniform   sampler2D us_dif;
 uniform   sampler2D us_nor;
 
 void main() {
-	vec3 nor     = normalize(vr_nor);
-	vec3 eye     = normalize(vr_eye);
-
-
-	float	spc    = (dot(reflect(lgt_dir, nor), eye) + 1.0) *0.5;
-			spc    = clamp(spc, 0.0, 1.0);
-			spc    = pow(spc, 2.0)* 0.9;
-
-	float lam    = (dot(-lgt_dir, nor) + 1.0) * 0.4;
-	float lgt    = lam + spc;
-
-
 	vec4 ct_dif  = texture2D(us_dif, vr_tex);
-	vec3 ct_nor  = normalize(texture2D(us_nor, vr_tex).xyz * 2.0 - 1.0);
 
+	vec3 ct_nor  = normalize(texture2D(us_nor, vr_tex).xyz * 2.0 - 1.0);
+	vec3 nor     = normalize(vr_nor);
 
 	vec3 B = vec3(1.0, 0.0, 0.0);
 	vec3 T = vec3(0.0, 1.0, 0.0);
-	vec3 N = normalize(vr_nor);
+	vec3 N = nor;
 	T = normalize(cross(N, B));
 	B = normalize(cross(T, N));
 
 	mat3 tm = mat3(B, T, N);
 
-	vec3 C = ct_nor.xyz;
-
-	ct_nor = tm *C;
+	nor = tm * ct_nor;
 
 
+	vec3 eye     = normalize(vr_eye);
+	vec3 ref     = reflect(lgt_dir, nor); //lgt_dir - 2.0 * dot(lgt_dir, nor) * nor;
 
-	float bump   = (dot(lgt_dir, ct_nor) + 1.0) * 0.5;
-			bump   = pow(bump, 5.0) * 5.0;
+	float	spc  = dot(ref, eye);//(dot(ref, eye) + 1.0) *0.5;
+			spc  = clamp(spc, 0.0, 1.0);
+			spc  = pow(spc, 15.0)* 1.1;
 
-	lgt *= bump;
+	float	lgt  = (dot(-lgt_dir, nor) +1.0) * 0.48;
+			lgt += spc;
 
-	gl_FragColor.rgb = ct_dif.rgb * lgt_dif.rgb * lgt;
-	gl_FragColor.a   = ct_dif.a * lgt_dif.a;
+	float   gray = (ct_dif.r + ct_dif.g + ct_dif.b) * 0.334;
+			gray = pow(gray, 2.0)*1.2;
+
+
+	gl_FragColor.rgb = gray * lgt_dif.rgb * lgt;
+	gl_FragColor.a   = ct_dif.a   * lgt_dif.a;
 }
