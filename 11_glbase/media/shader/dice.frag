@@ -44,8 +44,8 @@ void main() {
 	float bump   = (dot(lgt_dir, ct_nor) + 1.0) * 0.5;
 			bump   = pow(bump, 5.0) * 5.0;
 
-	//lgt *= bump;
+	lgt *= bump;
 
-	gl_FragColor.rgb = ct_nor;//vec3(lgt, lgt, lgt);	//gl_FragColor.rgb = ct_dif.rgb * lgt_dif.rgb * lgt;
+	gl_FragColor.rgb = ct_dif.rgb * lgt_dif.rgb * lgt;
 	gl_FragColor.a   = ct_dif.a * lgt_dif.a;
 }

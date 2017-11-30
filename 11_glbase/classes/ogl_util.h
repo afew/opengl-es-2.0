@@ -3,7 +3,10 @@
 #ifndef _OGL_UTIL_H_
 #define _OGL_UTIL_H_
 
+#include <string>
 #include <map>
+#include "LcType.h"
+#include "LcMath.h"
 
 #ifndef GL_LINEAR
 #define GL_LINEAR                         0x2601
@@ -14,6 +17,15 @@
 
 void printGLString(const char *name, int s);
 bool checkGLError(const char* functionLastCalled);
+
+struct RenderObject
+{
+	virtual ~RenderObject(){};
+	virtual int Init      () =0;
+	virtual int Destroy   () =0;
+	virtual int FrameMove () =0;
+	virtual int Render    () =0;
+};
 
 class GLTexture
 {
@@ -44,9 +56,9 @@ public:
 class GLProgram
 {
 protected:
-	unsigned int m_vert;
-	unsigned int m_frag;
-	unsigned int m_prog;
+	UINT m_vert;
+	UINT m_frag;
+	UINT m_prog;
 	std::map<int, GLTexture*>	m_texture;
 
 public:
@@ -55,7 +67,7 @@ public:
 
 public:
 	GLProgram();
-	~GLProgram();
+	virtual ~GLProgram();
 
 	int  Init(const char* vertexShaderSource, const char* fragmentShaderSource);
 	int  InitFromFile(const char* vertexShaderFile, const char* fragmentShaderFile);
@@ -99,6 +111,44 @@ public:
 protected:
 	int Init(int w, int h);
 	void Destroy();
+};
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+class GLCamera : RenderObject
+{
+protected:
+	MAT4X4	mt_viw;
+	MAT4X4	mt_prj;
+	LCXVEC3 v3_eye;		// camera position
+	LCXVEC3 v3_look;	// camera look at position
+	LCXVEC3 v3_up;		// camera up vector;
+	bool	b_update;
+public:
+	GLCamera();
+	virtual ~GLCamera(){}
+
+	static RenderObject* create();
+	static void          globalCamera(const std::string& name, RenderObject*);
+	static GLCamera*     globalCamera(const std::string& name);
+
+
+protected: virtual int Init      () override;
+protected: virtual int Destroy   () override { return 0;};
+public   : virtual int FrameMove () override;
+protected: virtual int Render    () override { return 0;};
+
+public:
+	void            Eye    (const LCXVEC3& eye);
+	const LCXVEC3*  Eye    () const { return &v3_eye; }
+	void            LookAt (const LCXVEC3& lookat);
+	const LCXVEC3*  LookAt () const { return &v3_eye; }
+
+	void       Param   (const LCXVEC3& eye, const LCXVEC3& lookat, const LCXVEC3& up);
+	void       Up      (const LCXVEC3& up);
+
+	const MAT4X4* View () const { return &mt_viw;}
+	const MAT4X4* Proj () const { return &mt_prj;}
 };
 
 #endif

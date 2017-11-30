@@ -1,6 +1,6 @@
 ﻿
 #include <vector>
-#include <string>
+
 #ifdef _WIN32
   #include <tchar.h>
 #endif
@@ -528,5 +528,98 @@ void GLFBO::draw()
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glUseProgram(0);
+}
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+
+RenderObject* GLCamera::create()
+{
+	GLCamera* ret = new GLCamera;
+	if(0>ret->Init())
+	{
+		delete ret;
+		return NULL;
+	}
+	return ret;
+}
+
+static std::map<std::string, GLCamera*> global_cam;
+
+void GLCamera::globalCamera(const std::string& name, RenderObject* cam)
+{
+	if(global_cam.find(name) != global_cam.end())
+		return;
+	global_cam.emplace(name, (GLCamera*)cam);
+}
+
+GLCamera* GLCamera::globalCamera(const std::string& name)
+{
+	auto it = global_cam.find(name);
+	if(it == global_cam.end())
+		return NULL;
+
+	GLCamera* ret = it->second;
+	return ret;
+}
+
+GLCamera::GLCamera()
+	: v3_eye (0, -20, 0)
+	, v3_look(0,   0, 0)
+	, v3_up  (0,   0, 1)
+	, b_update(true)
+{
+}
+
+int GLCamera::Init()
+{
+	this->FrameMove();
+	return 0;
+}
+
+int GLCamera::FrameMove()
+{
+	if(!b_update)
+		return 0;
+
+	float	vpt[16]={0};
+	glGetFloatv(GL_VIEWPORT, vpt);
+	float scnW = vpt[2];
+	float scnH = vpt[3];
+
+	float	Asp = scnW/scnH;
+	float	Near = 1.F;
+	float	Far	 = 1000.F;
+	float	Fov  = 45.F;
+	mt_prj.PerspectiveD3dRH( LCXToRadian(Fov), Asp, Near, Far);
+	mt_viw.ViewGl(&v3_eye, &v3_look, &v3_up);
+	b_update = false;
+	return 0;
+}
+
+void GLCamera::Param (const LCXVEC3& eye, const LCXVEC3& lookat, const LCXVEC3& up)
+{
+	v3_eye  = eye;
+	v3_look = lookat;
+	v3_up   = up;
+	b_update = true;
+}
+
+void GLCamera::Eye   (const LCXVEC3& eye)
+{
+	v3_eye  = eye;
+	b_update = true;
+}
+
+void GLCamera::LookAt(const LCXVEC3& lookat)
+{
+	v3_look = lookat;
+	b_update = true;
+}
+
+void GLCamera::Up(const LCXVEC3& up)
+{
+	v3_up = up;
+	b_update = true;
 }
 

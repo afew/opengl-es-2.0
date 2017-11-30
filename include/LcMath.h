@@ -1018,7 +1018,7 @@ struct LCXCOLOR : LC_COLORF
 	static const LCXCOLOR	PURPLE ;
 	static const LCXCOLOR	VIOLET ;
 };
-
+typedef LCXCOLOR COLOR4F;
 
 
 

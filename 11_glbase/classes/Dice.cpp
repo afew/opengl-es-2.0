@@ -15,8 +15,6 @@
 #include "app_util.h"
 #include "Dice.h"
 
-#include "LcMath.h"
-
 static Dice* g_app = NULL;
 
 Dice::Dice()
@@ -93,26 +91,6 @@ int Dice::Init()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_mesh.idx);	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(idx), idx, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-
-	// set up projection matrix in 3d pipeline
-	float	vpt[16]={0};
-	glGetFloatv(GL_VIEWPORT, vpt);		// get viewport to set the screen width and height.
-	float scnW = vpt[2];
-	float scnH = vpt[3];
-
-
-	float	Asp = scnW/scnH;
-	float	Near = 1.F;
-	float	Far	 = 1000.F;
-	float	Fov  = 45.F;
-	m_mtPrj.PerspectiveD3dRH( LCXToRadian(Fov), Asp, Near, Far);
-
-
-	// setup the view matrix
-	LCXVECTOR3	eye(0, -20, 0);
-	LCXVECTOR3	look(0,0,0);
-	LCXVECTOR3	up(0,0,1);
-	m_mtViw.ViewGl(&eye, &look, &up);
 	return 0;
 }
 
@@ -142,7 +120,7 @@ int	Dice::Render()
 
 	// setup the world matrix
 	LCXMATRIX	mtWld, mtS, mtZ, mtX, mtY;
-	LCXVECTOR3	pos(0, 0, 0.F);
+	LCXVEC3	pos(0, 0, 0.F);
 
 	mtS.Scaling(3,3,3);
 	mtZ.RotationZ( LCXToRadian((float)(c) ));
@@ -160,11 +138,11 @@ int	Dice::Render()
 	glEnable( GL_CULL_FACE );
 
 
-	LCXVECTOR3 lgt_dir(  -0.707F, -0.707F, 0);
-	LCXCOLOR   lgt_dif(1.8F,   0.6F, 1.2F, 1.0F);
+	LCXVEC3 lgt_dir(  -0.707F, -0.707F, 0);
+	COLOR4F lgt_dif(1.8F,   0.6F, 1.2F, 1.0F);
 
-	LCXVECTOR3	eye(0, -20, 0);
-	LCXVECTOR3	look(0,0,0);
+	LCXVEC3	eye(0, -20, 0);
+	LCXVEC3	look(0,0,0);
 
 
 	m_prg->BeginProgram();
@@ -179,10 +157,13 @@ int	Dice::Render()
 
 
 	// get the location of uniform
-	m_prg->Matrix16("um_Wld", (GLfloat*)&  mtWld);
-	m_prg->Matrix16("um_Viw", (GLfloat*)&m_mtViw);
-	m_prg->Matrix16("um_Prj", (GLfloat*)&m_mtPrj);
-
+	GLCamera* cam = GLCamera::globalCamera("3d world");
+	if(cam)
+	{
+		m_prg->Matrix16("um_Wld", (GLfloat*)&mtWld);
+		m_prg->Matrix16("um_Viw", (GLfloat*)cam->View());
+		m_prg->Matrix16("um_Prj", (GLfloat*)cam->Proj());
+	}
 
 	glEnableVertexAttribArray(0);	glBindBuffer(GL_ARRAY_BUFFER, m_mesh.pos);	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(1);	glBindBuffer(GL_ARRAY_BUFFER, m_mesh.nor);	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);

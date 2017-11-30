@@ -5,8 +5,8 @@
     android:versionName="1.0" >
 
 	<uses-sdk
-        android:minSdkVersion="18"
-        android:targetSdkVersion="18" />
+        android:minSdkVersion="22"
+        android:targetSdkVersion="22" />
     
 	<supports-screens
 		android:anyDensity="true"

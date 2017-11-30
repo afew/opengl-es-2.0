@@ -4,8 +4,6 @@
 #define _Cube_H_
 
 #include "ogl_util.h"
-#include "LcType.h"
-#include "LcMath.h"
 
 struct Mesh
 {
@@ -13,7 +11,7 @@ struct Mesh
 	UINT idx;				// index id
 };
 
-class Dice
+class Dice : public RenderObject
 {
 protected:
 	GLProgram*		m_prg  ={};
@@ -21,17 +19,14 @@ protected:
 	GLTexture*		m_tx1  ={};		// normal
 	Mesh			m_mesh ={};
 
-	LCXMATRIX		m_mtViw;
-	LCXMATRIX		m_mtPrj;
-
 public:
 	Dice();
 	virtual ~Dice();
 
-	virtual int Init();
-	virtual int Destroy();
-	virtual int FrameMove();
-	virtual int Render();
+	virtual int Init      () override;
+	virtual int Destroy   () override;
+	virtual int FrameMove () override;
+	virtual int Render    () override;
 };
 
 #endif

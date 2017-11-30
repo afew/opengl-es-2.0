@@ -5,7 +5,8 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.1'
+        classpath 'com.android.tools.build:gradle:2.3.3'
+        //classpath 'com.google.gms:google-services:3.1.2'
     }
 }
 
@@ -17,6 +18,7 @@ allprojects {
 }
 
 apply plugin: 'com.android.application'
+//apply plugin: 'com.google.gms.google-services'
 
 File pvrSdkDir = file("${project.buildDir}/../../../../../../../")
 
@@ -25,22 +27,26 @@ android {
         glbase {
             keyAlias 'glbase'
             keyPassword 'rkfflr314'
-            storeFile file('E:/_document/GitHub/opengl-es-2.0/11_glbase/proj.ast/glbasekey.keystore')
+            storeFile file('glbasekey.keystore')
             storePassword 'rkfflr314'
         }
     }
-    compileSdkVersion 18
+    compileSdkVersion 22
     buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.glc.glbase"
-        minSdkVersion 18
-        targetSdkVersion 18
+        minSdkVersion 22
+        targetSdkVersion 22
         signingConfig signingConfigs.glbase
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable true
+            jniDebuggable true
+            signingConfig signingConfigs.glbase
+            renderscriptDebuggable true
         }
         debug {
             jniDebuggable true
@@ -109,10 +115,9 @@ android {
 }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-
-    implementation  "com.google.android.gms:play-services-auth:11.6.0"
-    implementation  "com.google.android.gms:play-services-base:11.6.0"
-    implementation  "com.google.android.gms:play-services-identity:11.6.0"
-    implementation  "com.google.android.gms:play-services-gcm:11.6.0"
-    implementation  "com.google.android.gms:play-services-games:11.6.0"
+    compile 'com.google.android.gms:play-services-auth:11.6.0'
+    compile 'com.google.android.gms:play-services-base:11.6.0'
+    compile 'com.google.android.gms:play-services-identity:11.6.0'
+    compile 'com.google.android.gms:play-services-gcm:11.6.0'
+    compile 'com.google.android.gms:play-services-games:11.6.0'
 }
