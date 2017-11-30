@@ -429,8 +429,8 @@ int GLFBO::Init(int w, int h)
 		return -1;
 
 	glGetIntegerv(GL_TEXTURE_2D, &store_tex);
-	glGetIntegerv(GL_RENDERBUFFER, &store_rnd);
-	glGetIntegerv(GL_FRAMEBUFFER, &store_frm);
+	glGetIntegerv(GL_RENDERBUFFER_BINDING, &store_rnd);
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &store_frm );
 
 	glGenTextures(1, (GLuint*)&m_tex);
 	glGenRenderbuffers(1, (GLuint*)&m_rnd);
@@ -484,7 +484,7 @@ void GLFBO::Destroy()
 
 void GLFBO::begin()
 {
-	glGetIntegerv(GL_FRAMEBUFFER, &store_frm);
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &store_frm );
 	glBindFramebuffer(GL_FRAMEBUFFER, m_frm);
 	checkGLError("GLFBO::begin()");
 }
