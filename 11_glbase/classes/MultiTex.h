@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #ifndef _MultiTex_H_
 #define _MultiTex_H_

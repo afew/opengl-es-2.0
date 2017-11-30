@@ -8,7 +8,7 @@
 class App : public RenderObject
 {
 protected:
-	GLFBO*			m_fbo;
+	GLFBO*			m_fbo   ={};
 	RenderObject*	m_cube  ={};
 	RenderObject*	m_multi ={};
 	RenderObject*	m_cam   ={};

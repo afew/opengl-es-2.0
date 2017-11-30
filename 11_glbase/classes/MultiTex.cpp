@@ -1,4 +1,4 @@
-
+﻿
 #include <vector>
 #include <stdio.h>
 #include <math.h>
@@ -86,5 +86,4 @@ int MultiTex::Render()
 
 	return 0;
 }
-
 

@@ -17,7 +17,7 @@
 #include "App.h"
 #include "Dice.h"
 #include "MultiTex.h"
-#include "LcMath.h"
+
 
 static std::mutex g_mutex;
 
@@ -85,6 +85,7 @@ int app_destroy()
 
 int app_update()
 {
+	app_update_key();
 	return App::getInstance()->FrameMove();
 }
 
@@ -121,7 +122,6 @@ int App::Init()
 	m_cam = GLCamera::create();
 	if(!m_cam)
 		return -1;
-
 	GLCamera::globalCamera(std::string("3d world"), m_cam);
 
 	m_cube = new Dice;
@@ -166,13 +166,13 @@ int App::Render()
 	while((error = glGetError()) != GL_NO_ERROR);
 
 	//m_fbo->begin();
+	glEnable(GL_DEPTH_TEST);
 	glClearColor(0.0f, 0.4f, 0.6f, 1.0f);
-	glEnable(GL_BLEND);
 	glBlendEquation(GL_FUNC_ADD);
+	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	
 	m_multi->Render();
 	glClear(GL_DEPTH_BUFFER_BIT);
 	m_cube->Render();

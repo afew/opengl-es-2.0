@@ -3,27 +3,13 @@
 #include <stdlib.h>
 #include <math.h>
 
-#if defined(_ANDROID_) || defined(__ANDROID__)
-#include <android/asset_manager.h>
-#include <android/asset_manager_jni.h>
-
-static AAssetManager* g_assm = NULL;
-void setAAssetManager(void* assm)
-{
-	g_assm = (AAssetManager*)assm;
-}
-
-#elif defined(_WIN32)
-extern const char* AppResourcePath(const char* fileName);
-
-#elif __ANDROID__
-const char* AppResourcePath(const char* fileName)
-{
-	return NULL;
-}
+#if defined(ANDROID) || defined(__ANDROID__)
+  #include <android/asset_manager.h>
+  #include <android/asset_manager_jni.h>
 #endif
 
-
+extern const char* AppResourcePath(const char* fileName);
+extern void* getAAssetManager();
 
 #include "app_util.h"
 
@@ -42,7 +28,7 @@ struct TGAHEADER
 
 int LoadTGA(int* oW, int* oH, int* oD, unsigned char** oB, const char* _src_buf, size_t size)
 {
-	char*			 src_buf = (char*)_src_buf;
+	char*			src_buf = (char*)_src_buf;
 	unsigned char	charBad;					// garbage data
 	short			sintBad;					// garbage data
 	long			imageSize;					// size of TGA image
@@ -159,7 +145,7 @@ FileData::FileData(const char* fileName)
 , m_data(0)
 {
 #ifdef __ANDROID__
-	AAsset* asst = AAssetManager_open(g_assm, fileName, AASSET_MODE_UNKNOWN);
+	AAsset* asst = AAssetManager_open((AAssetManager*)getAAssetManager(), fileName, AASSET_MODE_UNKNOWN);
 	if(NULL == asst)
 		return;
 
@@ -198,3 +184,5 @@ FileData::~FileData()
 		m_data = 0;
 	}
 }
+
+

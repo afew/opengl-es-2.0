@@ -24,7 +24,10 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
+<<<<<<< HEAD
 import android.widget.Toast;
+=======
+>>>>>>> bf54359889abfbc2c68ea17d33827d50d9aecd16
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -152,6 +155,12 @@ public class MainActivity extends Activity
 		draw();
 	}
 
+<<<<<<< HEAD
+=======
+
+	//------------------------------------------------------------------------------------------------------------------
+
+>>>>>>> bf54359889abfbc2c68ea17d33827d50d9aecd16
 	@Override public boolean onKeyDown(int keyCode, KeyEvent event)
 	{
 		int keyAction = event.getAction();
@@ -166,7 +175,12 @@ public class MainActivity extends Activity
 		}
 		return super.onKeyDown(keyCode, event);
 	}
+<<<<<<< HEAD
 	@Override public boolean dispatchTouchEvent( MotionEvent event)
+=======
+
+	@Override public boolean dispatchTouchEvent( MotionEvent event )
+>>>>>>> bf54359889abfbc2c68ea17d33827d50d9aecd16
 	{
 		float x = event.getX();
 		float y = event.getY();
@@ -177,6 +191,7 @@ public class MainActivity extends Activity
 		{
 			case MotionEvent.ACTION_DOWN:
 			{
+<<<<<<< HEAD
 				touchEvent(index, 1, x, y);
 				break;
 			}
@@ -189,10 +204,22 @@ public class MainActivity extends Activity
 					startRecording();
 				break;
 			}
+=======
+				//Log.i(TAG, "MotionEvent.ACTION_DOWN:: index: " + index + ", action: " + MotionEvent.ACTION_UP);
+				touchEvent(index, 1, x, y);
+			}break;
+
+			case MotionEvent.ACTION_UP:
+			{
+				//Log.i(TAG, "MotionEvent.ACTION_UP:: index: " + index + ", action: " + MotionEvent.ACTION_UP);
+				touchEvent(index, 2, x, y);
+			}break;
+>>>>>>> bf54359889abfbc2c68ea17d33827d50d9aecd16
 		}
 		boolean result =  super.dispatchTouchEvent(event);
 		return result;
 	}
+<<<<<<< HEAD
 
 	@Override  public void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
@@ -349,4 +376,6 @@ public class MainActivity extends Activity
 		VideosClient videoClient = Games.getVideosClient(this, account);
 		Log.i(TAG, "start recording () 1");
 	}
+=======
+>>>>>>> bf54359889abfbc2c68ea17d33827d50d9aecd16
 }
