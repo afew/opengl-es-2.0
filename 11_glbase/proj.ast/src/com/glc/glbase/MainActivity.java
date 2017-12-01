@@ -1,53 +1,26 @@
 package com.glc.glbase;
 
-import org.gpgs.*;
-
-import java.io.File;
-import java.io.IOException;
-
 import android.app.Activity;
-import android.content.Context;
 import android.content.res.AssetManager;
 import android.content.Intent;
 import android.graphics.Point;
-import android.graphics.Rect;
-import android.opengl.GLES20;
 import android.os.Bundle;
-import android.util.*;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
-import android.os.Message;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
-<<<<<<< HEAD
-import android.widget.Toast;
-=======
->>>>>>> bf54359889abfbc2c68ea17d33827d50d9aecd16
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.common.api.GoogleApiActivity;
-import com.google.android.gms.games.AchievementsClient;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.games.Games;
-import com.google.android.gms.games.LeaderboardsClient;
 import com.google.android.gms.games.Player;
-import com.google.android.gms.games.PlayersClient;
-import com.google.android.gms.games.VideosClient;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 
-public class MainActivity extends Activity
+
+public class MainActivity
+	extends Activity
+	implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener
 {
+	// for native
 	public static native void keyEvent(int index, int action);
 	public static native void touchEvent(int index, int action, float x, float y);
 	public static native void init(Object assetManager, int width, int height);
@@ -59,20 +32,15 @@ public class MainActivity extends Activity
 	public static MainActivity  main_act = null;
 	public static AssetManager  main_ast = null;
 	public static MainView      main_view= null;
+	public static int           main_screen_w = 0;
+	public static int           main_screen_h = 0;
 
-	public static int	dsp_w = 0;
-	public static int	dsp_h = 0;
+	// for google play service
+	private GoogleApiClient    gpgs_googleClient = null;
+	private boolean            gpgs_resolving = false;		// for resolving connection
 
-
-	// Client used to sign in with Google APIs
-	private GoogleSignInClient gpgs_googleClient;
-	private AchievementsClient gpgs_achievements;
-	private LeaderboardsClient gpgs_leaderboard;
-	private PlayersClient      gpgs_players;
-
-	public static final int RC_UNUSED   = 5001;
-	public static final int RQS_SIGN_IN = 9001;
-	public static final int RQS_VIDEO   = 9011;
+	private static final int   GPGS_RESOLUTION = 10000;
+	private static final int   GPGS_RECORDING  = 20000;
 
 
 	@Override protected void onCreate(Bundle savedInstanceState)
@@ -80,10 +48,7 @@ public class MainActivity extends Activity
 		super.onCreate(savedInstanceState);
 		main_act = this;
 		main_ast = this.getAssets();
-		Util.init(this);
-		GooglePlayGameServiceC.InitGPGS(this);
-		GooglePlayGameServiceC.OnActivityCreated(this, savedInstanceState);
-
+		AppUtil.init(this);
 
 		// setup the display size
 		android.util.DisplayMetrics mtr = new DisplayMetrics();
@@ -93,74 +58,42 @@ public class MainActivity extends Activity
 
 		Point dspPoint = new Point();
 		dsp.getSize(dspPoint);
-		MainActivity.dsp_w = dspPoint.x;
-		MainActivity.dsp_h = dspPoint.y;
+		MainActivity.main_screen_w = dspPoint.x;
+		MainActivity.main_screen_h = dspPoint.y;
 
 		System.loadLibrary("g-pack");
 		MainActivity.main_view = new MainView(getApplication());
-		setContentView(MainActivity.main_view);
+		setContentView(main_view);
+
+		// Create the Google API Client with access to Games
+		gpgs_googleClient = new GoogleApiClient.Builder(this)
+				.addConnectionCallbacks(this)
+				.addOnConnectionFailedListener(this)
+				.addApi(Games.API)
+				.addScope(Games.SCOPE_GAMES)
+				//.addApi(Plus.API)
+				//.addScope(Plus.SCOPE_PLUS_LOGIN)
+				//.addScope(Plus.SCOPE_PLUS_PROFILE)
+				.build();
 	}
 
 	@Override protected void onDestroy()
 	{
 		super.onDestroy();
-		GooglePlayGameServiceC.OnActivityDestroyed(this);
-	}
-	@Override protected void onPause()
-	{
-		super.onPause();
-		main_view.onPause();
-		GooglePlayGameServiceC.OnActivityPaused(this);
 	}
 	@Override protected void onResume()
 	{
 		super.onResume();
 		main_view.onResume();
-		silentSignIn();
-
-		GooglePlayGameServiceC.OnActivityResumed(this);
 	}
-	@Override protected void onSaveInstanceState(Bundle outState)
+	@Override protected void onPause()
 	{
-		super.onSaveInstanceState(outState);
-		GooglePlayGameServiceC.OnActivitySaveInstanceState(this, outState);
-	}
-	@Override protected void onStart()
-	{
-		super.onStart();
-		GooglePlayGameServiceC.OnActivityStarted(this);
-	}
-	@Override protected void onStop()
-	{
-		super.onStop();
-		GooglePlayGameServiceC.OnActivityStopped(this);
+		super.onPause();
+		main_view.onPause();
 	}
 
-	public void appInit()
-	{
-		MainActivity.init((Object)MainActivity.main_ast, MainActivity.dsp_w, MainActivity.dsp_h);
-	}
-	public void appDestroy()
-	{
-		Util.LOGD("appDestroy: ");
-	}
-	public void appDisplaySize(int width, int height)
-	{
-		Util.LOGD("with: " + width + "  height: " + height);
-	}
+	//----------------------------------------------------------------------------------------------
 
-	public void appDraw()
-	{
-		update();
-		draw();
-	}
-
-<<<<<<< HEAD
-=======
-
-	//------------------------------------------------------------------------------------------------------------------
-
->>>>>>> bf54359889abfbc2c68ea17d33827d50d9aecd16
 	@Override public boolean onKeyDown(int keyCode, KeyEvent event)
 	{
 		int keyAction = event.getAction();
@@ -170,17 +103,13 @@ public class MainActivity extends Activity
 			case KeyEvent.KEYCODE_BACK:
 			{
 				keyEvent(index, MotionEvent.ACTION_DOWN);
-				return true;
+				break;
 			}
 		}
 		return super.onKeyDown(keyCode, event);
 	}
-<<<<<<< HEAD
-	@Override public boolean dispatchTouchEvent( MotionEvent event)
-=======
 
-	@Override public boolean dispatchTouchEvent( MotionEvent event )
->>>>>>> bf54359889abfbc2c68ea17d33827d50d9aecd16
+	@Override public boolean dispatchTouchEvent( MotionEvent event)
 	{
 		float x = event.getX();
 		float y = event.getY();
@@ -191,7 +120,6 @@ public class MainActivity extends Activity
 		{
 			case MotionEvent.ACTION_DOWN:
 			{
-<<<<<<< HEAD
 				touchEvent(index, 1, x, y);
 				break;
 			}
@@ -199,183 +127,158 @@ public class MainActivity extends Activity
 			{
 				touchEvent(index, 2, x, y);
 				if(!isSignedIn())
-					startSignIn();
+				{
+					signIn();
+				}
 				else
-					startRecording();
+				{
+					startVideoRecording();
+				}
 				break;
 			}
-=======
-				//Log.i(TAG, "MotionEvent.ACTION_DOWN:: index: " + index + ", action: " + MotionEvent.ACTION_UP);
-				touchEvent(index, 1, x, y);
-			}break;
-
-			case MotionEvent.ACTION_UP:
-			{
-				//Log.i(TAG, "MotionEvent.ACTION_UP:: index: " + index + ", action: " + MotionEvent.ACTION_UP);
-				touchEvent(index, 2, x, y);
-			}break;
->>>>>>> bf54359889abfbc2c68ea17d33827d50d9aecd16
+			default:
+				break;
 		}
 		boolean result =  super.dispatchTouchEvent(event);
 		return result;
 	}
-<<<<<<< HEAD
 
-	@Override  public void onActivityResult(int requestCode, int resultCode, Intent data)
+	//----------------------------------------------------------------------------------------------
+
+	// siginning and recording
+
+	private boolean isSignedIn()
 	{
-		if(requestCode == RQS_SIGN_IN)
+		return (gpgs_googleClient != null && gpgs_googleClient.isConnected());
+	}
+
+	@Override protected void onStart()
+	{
+		super.onStart();
+		AppUtil.LOGI("onStart(): connecting");
+		gpgs_googleClient.connect();
+	}
+
+	@Override protected void onStop()
+	{
+		super.onStop();
+		AppUtil.LOGI("onStop(): disconnecting");
+		signOut();
+	}
+	@Override protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		if(requestCode == GPGS_RESOLUTION)
 		{
-			signInResult(requestCode, resultCode, data);
-			return;
+			if (resultCode == Activity.RESULT_OK)
+			{
+				gpgs_googleClient.connect();
+			}
+		}
+		else if(requestCode == GPGS_RECORDING)
+		{
+			AppUtil.Toast("start VideoRecording() :: request result: " + resultCode);
 		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
-//--------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------
-
-	public void startSignIn()
+	public void signIn()
 	{
-		if(isSignedIn())
-		{
-			onConnected();
-			return;
-		}
-
-		// Configure sign-in to request the user's ID, email address, and basic  profile. ID and basic profile are included in DEFAULT_SIGN_IN.
-		GoogleSignInOptions gso =
-		new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-		.requestEmail()
-		.build();
-
-		if(null == gso)
-		{
-			Log.w(TAG, "startSignIn()::GoogleSignInOptions failed");
-			return;
-		}
-
-		gpgs_googleClient = GoogleSignIn.getClient(this, gso);
-		if(null == gpgs_googleClient)
-		{
-			Log.w(TAG, "startSignIn()::GoogleSignIn.getClient failed");
-			return;
-		}
-
-		GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-
-		// Create the client used to sign in to Google services.
-		startActivityForResult(gpgs_googleClient.getSignInIntent(), RQS_SIGN_IN);
-		Log.i(TAG, "start signInIntent() -------------------------------------");
+		gpgs_resolving = false;
+		gpgs_googleClient.connect();
+		AppUtil.LOGI("start signIn -------------------------------------");
 	}
-	private void silentSignIn()
+
+	public void signOut()
 	{
-		gpgs_googleClient = GoogleSignIn.getClient(this, GoogleSignInOptions.DEFAULT_GAMES_SIGN_IN);
-		if(null == gpgs_googleClient)
+		Games.signOut(gpgs_googleClient);
+		if (gpgs_googleClient.isConnected())
 		{
-			Log.w(TAG, "silentSignIn()::GoogleSignIn.getClient failed");
+			gpgs_googleClient.disconnect();
+		}
+		AppUtil.LOGI("sign Out    -------------------------------------");
+	}
+
+	@Override public void onConnected(Bundle bundle)
+	{
+		AppUtil.LOGI("onConnected(): connected to Google APIs");
+
+		Player p = Games.Players.getCurrentPlayer(gpgs_googleClient);
+		if(p == null)
+		{
+			AppUtil.Toast("onConnected(): player : NULL");
+		}
+		else
+		{
+			AppUtil.Toast("onConnected(): player : " + p.getDisplayName() );
+		}
+	}
+
+	@Override public void onConnectionSuspended(int i)
+	{
+		AppUtil.LOGI("onConnectionSuspended(): attempting to connect");
+		gpgs_googleClient.connect();
+	}
+
+	@Override public void onConnectionFailed(ConnectionResult result)
+	{
+		AppUtil.LOGI("onConnectionFailed(): " + result.toString());
+		if (gpgs_resolving)
+		{
+			AppUtil.LOGW("onConnectionFailed(): already resolving");
 			return;
 		}
 
-		gpgs_googleClient.silentSignIn().addOnCompleteListener(this, new OnCompleteListener<GoogleSignInAccount>()
+		gpgs_resolving = true;			// startResolutionForResult 재시도 방지
+		if (result.hasResolution())
 		{
-			@Override public void onComplete(Task<GoogleSignInAccount> task)
+			try
 			{
-				if(task.isSuccessful())
-				{
-					GoogleSignInAccount account = task.getResult();
-					Log.i(TAG, "silentSignIn::onComplete(): task successs: " + account.toString());
-				}
-				else
-				{
-					Exception e = task.getException();
-					Log.e(TAG, "silentSignIn::onComplete(): task error: " + e.toString());
-				}
+				result.startResolutionForResult(this, GPGS_RESOLUTION);
+				AppUtil.LOGI("onConnectionFailed(): startResolutionForResult");
 			}
-		});
-		Log.d(TAG, "silentSignIn() --------------------------------------------------------------");
-	}
-
-	private void signInResult(int requestCode, int resultCode, Intent data)
-	{
-		if(RQS_SIGN_IN != requestCode)
-			return;
-
-		Task<GoogleSignInAccount> completedTask = GoogleSignIn.getSignedInAccountFromIntent(data);
-		try
-		{
-			GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-
-			Log.i(TAG, "################################################################");
-			Log.i(TAG, "");
-			Log.i(TAG, "signed in success: " + account.toString());
-			Util.Toast("signed in success: " + account.toString());
-			Log.i(TAG, "");
-		}
-		catch (ApiException e)
-		{
-			//DEVELOPER_ERROR
-			Log.w(TAG, "WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW");
-			Log.w(TAG, "");
-			Log.w(TAG, "signInResult:failed code=" + e.getStatusCode());
-			Util.Toast("signInResult:failed code=" + e.getStatusCode());
-			Log.w(TAG, "");
+			catch (Exception e)
+			{
+				AppUtil.LOGW("onConnectionFailed(): startResolutionForResult:: failed");
+			}
 		}
 	}
 
-	private boolean isSignedIn()
-	{
-		return GoogleSignIn.getLastSignedInAccount(this) != null;
-	}
-
-	private void onConnected()
+	public void startVideoRecording()
 	{
 		if(!isSignedIn())
 			return;
-
-		GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-		Log.d(TAG, "onConnected(): account: " + account.toString());
-
-		/*
-		gpgs_players = PlayersClient.getPlayersClient(this, account);
-		gpgs_players.getCurrentPlayer()
-		.addOnCompleteListener(new OnCompleteListener<Player>()
-		{
-			@Override public void onComplete(Task<Player> task)
-			{
-				if(task.isSuccessful())
-				{
-					Log.i(TAG, "onComplete(): task successs");
-				}
-				else
-				{
-					Exception e = task.getException();
-					Log.e(TAG, "onComplete(): task error");
-				}
-
-			}
-		});
-		*/
-	}
-
-	private void onDisconnected()
-	{
-		Log.d(TAG, "onDisconnected()");
-	}
-
-	public void startRecording()
-	{
-		int result = com.google.android.gms.common.GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-		if(com.google.android.gms.common.ConnectionResult.SUCCESS != result)
+		AppUtil.LOGI("start VideoRecording");
+		if(!hasLollipopApi())
 			return;
 
-		if(!isSignedIn())
-			return;
-
-		GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-		Log.i(TAG, "start recording () 0 : " +account.toString());
-		VideosClient videoClient = Games.getVideosClient(this, account);
-		Log.i(TAG, "start recording () 1");
+		Intent intent = Games.Videos.getCaptureOverlayIntent(gpgs_googleClient);
+		startActivityForResult(intent, GPGS_RECORDING);
 	}
-=======
->>>>>>> bf54359889abfbc2c68ea17d33827d50d9aecd16
+	public static boolean hasLollipopApi()
+	{
+		return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP;
+	}
+
+	//----------------------------------------------------------------------------------------------
+	//----------------------------------------------------------------------------------------------
+
+	public void appInit()
+	{
+		MainActivity.init((Object)MainActivity.main_ast, MainActivity.main_screen_w, MainActivity.main_screen_h);
+	}
+	public void appDestroy()
+	{
+		AppUtil.LOGD("appDestroy: ");
+	}
+	public void appDisplaySize(int width, int height)
+	{
+		AppUtil.LOGD("with: " + width + "  height: " + height);
+	}
+	public void appDraw()
+	{
+		update();
+		draw();
+	}
+
 }
+

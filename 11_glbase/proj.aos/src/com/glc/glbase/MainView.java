@@ -88,7 +88,7 @@ class MainView extends GLSurfaceViewEGL14 {
 					EGL10.EGL_GREEN_SIZE  , mGreenSize,
 					EGL10.EGL_BLUE_SIZE   , mBlueSize,
 					EGL10.EGL_ALPHA_SIZE  , mAlphaSize,
-					EGL10.EGL_DEPTH_SIZE  , mDepthSize, 
+					EGL10.EGL_DEPTH_SIZE  , mDepthSize,
 					EGL10.EGL_STENCIL_SIZE, mStencilSize,
 					EGL10.EGL_RENDERABLE_TYPE, EGL_OPENGL_ES2_BIT,
 					EGL10.EGL_NONE

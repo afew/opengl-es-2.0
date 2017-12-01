@@ -6,10 +6,6 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
-<<<<<<< HEAD
-        //classpath 'com.google.gms:google-services:3.1.2'
-=======
->>>>>>> bf54359889abfbc2c68ea17d33827d50d9aecd16
     }
 }
 
@@ -34,22 +30,24 @@ android {
             storePassword 'rkfflr314'
         }
     }
-    compileSdkVersion 22
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 26
+    buildToolsVersion '27.0.1'
     defaultConfig {
         applicationId "com.glc.glbase"
-        minSdkVersion 22
-        targetSdkVersion 22
+        minSdkVersion 18
+        targetSdkVersion 26
         signingConfig signingConfigs.glbase
+        versionCode 4
+        versionName '1.0'
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            debuggable true
-            jniDebuggable true
+            debuggable false
+            jniDebuggable false
             signingConfig signingConfigs.glbase
-            renderscriptDebuggable true
+            renderscriptDebuggable false
         }
         debug {
             jniDebuggable true
@@ -118,9 +116,10 @@ android {
 }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.google.android.gms:play-services-auth:11.6.0'
-    compile 'com.google.android.gms:play-services-base:11.6.0'
-    compile 'com.google.android.gms:play-services-identity:11.6.0'
-    compile 'com.google.android.gms:play-services-gcm:11.6.0'
-    compile 'com.google.android.gms:play-services-games:11.6.0'
+    compile 'com.google.android.gms:play-services-auth:10.2.1'
+    compile 'com.google.android.gms:play-services-base:10.2.1'
+    compile 'com.google.android.gms:play-services-identity:10.2.1'
+    compile 'com.google.android.gms:play-services-gcm:10.2.1'
+    compile 'com.google.android.gms:play-services-games:10.2.1'
+    compile 'com.google.android.gms:play-services-plus:10.2.1'
 }
