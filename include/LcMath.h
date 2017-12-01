@@ -412,6 +412,7 @@ struct LCXCOLORW4
 #endif
 ;
 
+typedef LCXCOLOR	COLOR4F;
 
 
 
