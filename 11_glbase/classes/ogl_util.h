@@ -21,7 +21,7 @@ bool checkGLError(const char* functionLastCalled);
 struct RenderObject
 {
 	virtual ~RenderObject(){};
-	virtual int Init      () =0;
+	virtual int Init      (CPVOID =NULL, CPVOID =NULL, CPVOID =NULL, CPVOID =NULL) =0;
 	virtual int Destroy   () =0;
 	virtual int FrameMove () =0;
 	virtual int Render    () =0;
@@ -76,6 +76,8 @@ public:
 	void EndProgram();
 
 	int UniformLocation(const char* uniform_name);
+	int Mat3x3  (const char* uniform_name, const float* float16);
+	int Mat4x4  (const char* uniform_name, const float* float16);
 	int Matrix16(const char* uniform_name, const float* float16);
 	int Vector4 (const char* uniform_name, const float* float4);
 	int Vector3 (const char* uniform_name, const float* float3);
@@ -115,8 +117,18 @@ protected:
 
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
-class GLCamera : RenderObject
+
+class GLCamera : public RenderObject
 {
+public:
+	enum
+	{
+		GLCAM_NONE = 0,
+		GLCAM_3D   = 1,
+		GLCAM_2D   = 2,
+		GLCAM_GUI  = 3,
+
+	};
 protected:
 	MAT4X4	mt_viw;
 	MAT4X4	mt_prj;
@@ -124,19 +136,20 @@ protected:
 	LCXVEC3 v3_look;	// camera look at position
 	LCXVEC3 v3_up;		// camera up vector;
 	bool	b_update;
+	std::string m_name;
 public:
 	GLCamera();
 	virtual ~GLCamera(){}
 
-	static RenderObject* create();
-	static void          globalCamera(const std::string& name, RenderObject*);
-	static GLCamera*     globalCamera(const std::string& name);
+	static GLCamera*    create(int type, const char* name=NULL);
+	static void         remove(GLCamera**);
+	static void         globalCamera(const std::string& name, GLCamera*);
+	static GLCamera*    globalCamera(const std::string& name);
 
-
-protected: virtual int Init      () override;
-protected: virtual int Destroy   () override { return 0;};
-public   : virtual int FrameMove () override;
-protected: virtual int Render    () override { return 0;};
+	protected: virtual int Init      (CPVOID =NULL, CPVOID =NULL, CPVOID =NULL, CPVOID =NULL) final;
+	protected: virtual int Destroy   () final{ return 0;};
+	public   : virtual int FrameMove () override;
+	protected: virtual int Render    () final{ return 0;};
 
 public:
 	void            Eye    (const LCXVEC3& eye);
@@ -149,7 +162,42 @@ public:
 
 	const MAT4X4* View () const { return &mt_viw;}
 	const MAT4X4* Proj () const { return &mt_prj;}
+
+	const std::string& name() const { return m_name; }
 };
+
+//------------------------------------------------------------------------------
+
+class GLCamera3D : public GLCamera
+{
+public:
+	GLCamera3D();
+	virtual ~GLCamera3D(){}
+	public   : virtual int FrameMove () override;
+};
+
+//------------------------------------------------------------------------------
+
+class GLCamera2D : public GLCamera
+{
+public:
+	GLCamera2D();
+	virtual ~GLCamera2D(){}
+	public   : virtual int FrameMove () override;
+};
+
+//------------------------------------------------------------------------------
+
+class GLCameraGui : public GLCamera
+{
+public:
+	GLCameraGui();
+	virtual ~GLCameraGui(){}
+	public   : virtual int FrameMove () override;
+};
+
+//------------------------------------------------------------------------------
+
 
 #endif
 

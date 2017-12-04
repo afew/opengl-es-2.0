@@ -16,7 +16,7 @@ public:
 	MultiTex();
 	virtual ~MultiTex();
 
-	virtual int Init      () override;
+	virtual int Init      (CPVOID =NULL, CPVOID =NULL, CPVOID =NULL, CPVOID =NULL) override;
 	virtual int Destroy   () override;
 	virtual int FrameMove () override;
 	virtual int Render    () override;

@@ -306,6 +306,20 @@ int GLProgram::UniformLocation(const char* uniform_name)
 	return glGetUniformLocation(m_prog, uniform_name);
 }
 
+int GLProgram::Mat3x3(const char* uniform_name, const float* float9)
+{
+	int loc= glGetUniformLocation(m_prog, uniform_name);
+	if(0>loc)
+		return -1;
+	glUniformMatrix4fv(loc, 1, GL_FALSE, float9);
+	return 0;
+}
+
+int GLProgram::Mat4x4(const char* uniform_name, const float* float16)
+{
+	return this->Matrix16(uniform_name, float16);
+}
+
 int GLProgram::Matrix16(const char* uniform_name, const float* float16)
 {
 	int loc= glGetUniformLocation(m_prog, uniform_name);
@@ -533,24 +547,47 @@ void GLFBO::draw()
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 
-RenderObject* GLCamera::create()
+GLCamera* GLCamera::create(int type, const char* name)
 {
-	GLCamera* ret = new GLCamera;
-	if(0>ret->Init())
+	GLCamera* cam = NULL;
+	if(name)
 	{
-		delete ret;
+		cam = GLCamera::globalCamera(std::string(name));
+		if(cam)
+			return cam;
+	}
+
+	switch(type)
+	{
+		case GLCAM_3D :
+			cam = new GLCamera3D;
+			break;
+		case GLCAM_2D :
+			cam = new GLCamera2D;
+			break;
+		case GLCAM_GUI :
+			cam = new GLCameraGui;
+			break;
+		default:
+			return NULL;
+	}
+	if(0>cam->Init())
+	{
+		delete cam;
 		return NULL;
 	}
-	return ret;
+	if(name)
+		globalCamera(std::string(name), cam);
+	return cam;
 }
 
 static std::map<std::string, GLCamera*> global_cam;
 
-void GLCamera::globalCamera(const std::string& name, RenderObject* cam)
+void GLCamera::globalCamera(const std::string& name, GLCamera* cam)
 {
 	if(global_cam.find(name) != global_cam.end())
 		return;
-	global_cam.emplace(name, (GLCamera*)cam);
+	global_cam.emplace(name, (GLCamera3D*)cam);
 }
 
 GLCamera* GLCamera::globalCamera(const std::string& name)
@@ -563,6 +600,27 @@ GLCamera* GLCamera::globalCamera(const std::string& name)
 	return ret;
 }
 
+void GLCamera::remove(GLCamera** cam)
+{
+	if(!cam || !*cam)
+		return;
+
+	if((*cam)->m_name.empty())
+	{
+		delete *cam;
+		*cam = NULL;
+		return;
+	}
+	const std::string& name = (*cam)->name();
+	auto it = global_cam.find(name);
+	if(it != global_cam.end())
+		global_cam.erase(it);
+
+	delete *cam;
+	*cam = NULL;
+}
+
+
 GLCamera::GLCamera()
 	: v3_eye (0, -20, 0)
 	, v3_look(0,   0, 0)
@@ -571,7 +629,7 @@ GLCamera::GLCamera()
 {
 }
 
-int GLCamera::Init()
+int GLCamera::Init(CPVOID, CPVOID, CPVOID, CPVOID)
 {
 	this->FrameMove();
 	return 0;
@@ -621,5 +679,101 @@ void GLCamera::Up(const LCXVEC3& up)
 {
 	v3_up = up;
 	b_update = true;
+}
+
+//------------------------------------------------------------------------------
+
+GLCamera3D::GLCamera3D()
+{
+	v3_eye = LCXVEC3(0, -20, 0);
+	v3_look= LCXVEC3(0,   0, 0);
+	v3_up  = LCXVEC3(0,   0, 1);
+	b_update = true;
+}
+
+int GLCamera3D::FrameMove()
+{
+	if(!b_update)
+		return 0;
+
+	float	vpt[16]={0};
+	glGetFloatv(GL_VIEWPORT, vpt);
+	float scnW = vpt[2];
+	float scnH = vpt[3];
+
+	float	Asp = scnW/scnH;
+	float	Near = 1.F;
+	float	Far	 = 1000.F;
+	float	Fov  = 45.F;
+	mt_prj.PerspectiveD3dRH( LCXToRadian(Fov), Asp, Near, Far);
+	mt_viw.ViewGl(&v3_eye, &v3_look, &v3_up);
+	b_update = false;
+	return 0;
+}
+
+//------------------------------------------------------------------------------
+
+GLCamera2D::GLCamera2D()
+{
+	v3_eye = LCXVEC3(0, -20, 0);
+	v3_look= LCXVEC3(0,   0, 0);
+	v3_up  = LCXVEC3(0,   1, 0);
+
+}
+
+int GLCamera2D::FrameMove()
+{
+	if(!b_update)
+		return 0;
+
+	float	vpt[16]={0};
+	glGetFloatv(GL_VIEWPORT, vpt);
+	float scnW = vpt[2];
+	float scnH = vpt[3];
+
+	float	Asp = scnW/scnH;
+	float	Near = 1.F;
+	float	Far	 = 1000.F;
+	float	Fov  = 45.F;
+	mt_prj.PerspectiveD3dRH( LCXToRadian(Fov), Asp, Near, Far);
+	mt_viw.ViewGl(&v3_eye, &v3_look, &v3_up);
+	b_update = false;
+	return 0;
+}
+
+//------------------------------------------------------------------------------
+
+GLCameraGui::GLCameraGui()
+{
+	v3_eye = LCXVEC3(0,   0, -10);
+	v3_look= LCXVEC3(0,   0,   0);
+	v3_up  = LCXVEC3(0,   1,   0);
+
+}
+
+int GLCameraGui::FrameMove()
+{
+	if(!b_update)
+		return 0;
+
+	float	vpt[16]={0};
+	glGetFloatv(GL_VIEWPORT, vpt);
+	float scnW = vpt[2];
+	float scnH = vpt[3];
+
+	// Setup the Projection Matrix
+	FLOAT	l = -scnW*0.5F;		// left
+	FLOAT	r = +scnW*0.5F;		// right
+	FLOAT	b = -scnH*0.5F;		// bottom
+	FLOAT	t = +scnH*0.5F;		// top
+	FLOAT	n = +4096.0F;		// near
+	FLOAT	f = -4096.0F;		// far
+
+	mt_prj.OrthoGl(   0.000F, 2.000F*r		// Ortho Left Top
+					, 2.0F*t, 0.00000F
+					, n, f);
+
+	b_update = false;
+	return 0;
 }
 

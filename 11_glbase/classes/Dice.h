@@ -7,8 +7,8 @@
 
 struct Mesh
 {
-	UINT pos, nor, tex;		// position, normal, texture id
-	UINT idx;				// index id
+	UINT pos, nor, bnr, tex;	// position, normal, binormalr, texture id
+	UINT idx;					// index id
 };
 
 class Dice : public RenderObject
@@ -23,7 +23,7 @@ public:
 	Dice();
 	virtual ~Dice();
 
-	virtual int Init      () override;
+	virtual int Init      (CPVOID =NULL, CPVOID =NULL, CPVOID =NULL, CPVOID =NULL) override;
 	virtual int Destroy   () override;
 	virtual int FrameMove () override;
 	virtual int Render    () override;

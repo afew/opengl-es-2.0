@@ -22,6 +22,9 @@
 #include <GLES2/gl2.h>
 #include <vector>
 
+extern void app_key_event(int index, int action);
+extern void app_touch_event(int index, int action, float x, float y);
+
 extern int app_init();
 extern int app_destroy();
 extern int app_update();
@@ -35,8 +38,8 @@ extern int app_draw();
 #define APPLICATION_NAME "opengl es 2.0 base"
 
 // Width and height of the window
-const unsigned int WindowWidth  = 1280;
-const unsigned int WindowHeight = 768;
+const unsigned int WindowWidth  = 800;
+const unsigned int WindowHeight = 480;
 
 HWND g_nativeWindow = NULL;
 void* NativeWindow() { return g_nativeWindow; }
@@ -405,8 +408,77 @@ int main(int argc, char** argv)
 
 		MSG msg={0};
 
+		unsigned char keyOld[256]={0};
+		unsigned char keyCur[256]={0};
+		unsigned char keyMap[256]={0};
+		SetKeyboardState(keyCur);
+
+		float vcOld[2]={0};
+		float vcCur[2]={0};
+		float vcEps[2]={0};
+
 		while(msg.message != WM_QUIT)
 		{
+			INT i=0;
+
+			//1. currrent 값을 old 에 복사, 이전 상태를 저장한다.
+			memcpy(keyOld, keyCur, sizeof(keyOld));
+
+			//2. Current 와 Map의 값을 0으로 초기화
+			memset(keyCur, 0, sizeof(keyCur));
+			memset(keyMap, 0, sizeof(keyMap));
+
+			//3. 키보드 이벤트를 가져옴
+			GetKeyboardState(keyCur);
+			for(i=1; i< 256; ++i)
+			{
+				BYTE	vKey = keyCur[i] & 0x80;	// 현재의 키보드 상태를 읽어온다.
+				keyCur[i] = (vKey)? 1: 0;		// 키보드 상태를 0과 1로 정한다.
+
+				INT nOld = keyOld[i];
+				INT nCur = keyCur[i];
+				if(0 == nOld && 1 ==nCur)		keyMap[i] = 1;	// Down
+				else if(1 == nOld && 0 ==nCur)	keyMap[i] = 2;	// Up
+				else if(1 == nOld && 1 ==nCur)	keyMap[i] = 3;	// Press
+				else							keyMap[i] = 0;	// NONE
+			}
+
+			// 4. Update Mouse Position
+			POINT pt;
+			::GetCursorPos(&pt);
+			::ScreenToClient(g_nativeWindow, &pt);
+
+			vcOld[0] = vcCur[0];
+			vcOld[1] = vcCur[1];
+
+			vcCur[0] = FLOAT(pt.x);
+			vcCur[1] = FLOAT(pt.y);
+
+			vcEps[0] = vcCur[0] - vcOld[0];
+			vcEps[1] = vcCur[1] - vcOld[1];
+
+			for(i=1; i< 256; ++i)
+			{
+				if(i == VK_LBUTTON || i == VK_RBUTTON || i == VK_MBUTTON)
+					continue;
+				app_key_event(i, keyMap[i]);
+			}
+
+			if(keyMap[VK_LBUTTON])
+			{
+				int c;
+				c = 0;
+			}
+
+			app_touch_event(0, keyMap[VK_LBUTTON], vcCur[0], vcCur[1]);
+			app_touch_event(1, keyMap[VK_RBUTTON], vcCur[0], vcCur[1]);
+			app_touch_event(2, keyMap[VK_MBUTTON], vcCur[0], vcCur[1]);
+
+
+			if(0>app_update())
+				SendMessage(g_nativeWindow, WM_QUIT, 0, 0);
+
+
 			if(0>app_draw())
 				SendMessage(g_nativeWindow, WM_QUIT, 0, 0);
 

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "397385755939",
+    "project_id": "screenrecord-54891558"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:397385755939:android:f54459fe05ec655a",
+        "android_client_info": {
+          "package_name": "com.glc.glbase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "397385755939-d1baft2fpk2cf8k3dk6v9bgau0958bkk.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "397385755939-n4n7ljpfd31gjujqod1ahmsgjvj3brt8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.glc.glbase",
+            "certificate_hash": "0affe5189b4bf485cffd4dbdc45aee7ca2365e85"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC03PHrU87N_IhkfQ38yBXLKjnq3a3S_NM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

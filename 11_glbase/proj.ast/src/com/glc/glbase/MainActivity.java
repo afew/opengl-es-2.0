@@ -42,6 +42,18 @@ public class MainActivity
 	private static final int   GPGS_RESOLUTION = 10000;
 	private static final int   GPGS_RECORDING  = 20000;
 
+	public static GoogleApiClient getGoolgeClient()
+	{
+		return main_act.gpgs_googleClient;
+	}
+	public static MainView getMainView()
+	{
+		return main_view;
+	}
+	public static MainActivity getMainActivity()
+	{
+		return main_act;
+	}
 
 	@Override protected void onCreate(Bundle savedInstanceState)
 	{

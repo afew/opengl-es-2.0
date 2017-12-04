@@ -28,16 +28,19 @@ MultiTex::~MultiTex()
 {
 }
 
-int MultiTex::Init()
+int MultiTex::Init(CPVOID p0, CPVOID p1, CPVOID, CPVOID)
 {
+	const char* tex0 = (const char*)p0;
+	const char* tex1 = (const char*)p1;
+
 	m_prg = GLProgram::createFromFile("media/shader/multi_tex2d.vert", "media/shader/multi_tex2d.frag");
 	if(!m_prg)
 		return -1;
 
-	m_tx0= GLTexture::createFromFile("media/texture/stones.tga");
+	m_tx0= GLTexture::createFromFile(tex0);
 	if(!m_tx0)
 		return -1;
-	m_tx1= GLTexture::createFromFile("media/texture/env2.tga");
+	m_tx1= GLTexture::createFromFile(tex1);
 	if(!m_tx1)
 		return -1;
 	return 0;
@@ -58,19 +61,19 @@ int MultiTex::FrameMove()
 
 int MultiTex::Render()
 {
-	LCXVECTOR2 Pos[] =
+	LCXVEC2 Pos[] =
 	{
-		LCXVECTOR2(-1.0F, +0.0F),
-		LCXVECTOR2( 0.0F, +0.0F),
-		LCXVECTOR2( 0.0F, +1.0F),
-		LCXVECTOR2(-1.0F, +1.0F),
+		LCXVEC2(-1.0F, +0.0F),
+		LCXVEC2( 0.0F, +0.0F),
+		LCXVEC2( 0.0F, +1.0F),
+		LCXVEC2(-1.0F, +1.0F),
 	};
-	LCXVECTOR2 Tex[] =
+	LCXVEC2 Tex[] =
 	{
-		LCXVECTOR2(0.0F, 0.0F),
-		LCXVECTOR2(1.0F, 0.0F),
-		LCXVECTOR2(1.0F, 1.0F),
-		LCXVECTOR2(0.0F, 1.0F),
+		LCXVEC2(0.0F, 0.0F),
+		LCXVEC2(1.0F, 0.0F),
+		LCXVEC2(1.0F, 1.0F),
+		LCXVEC2(0.0F, 1.0F),
 	};
 
 	m_prg->BeginProgram();

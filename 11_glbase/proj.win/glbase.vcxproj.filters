@@ -36,6 +36,12 @@
     <ClInclude Include="..\classes\MultiTex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\classes\Sprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\classes\Gui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\_pvr_sdk\Windows\Resources\shared.rc">
@@ -57,6 +63,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\classes\MultiTex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\classes\Sprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\classes\Gui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -89,6 +101,12 @@
       <Filter>shader</Filter>
     </None>
     <None Include="..\media\shader\dice.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="..\media\shader\gui.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="..\media\shader\gui.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>

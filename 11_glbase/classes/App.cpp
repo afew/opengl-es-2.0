@@ -17,6 +17,7 @@
 #include "App.h"
 #include "Dice.h"
 #include "MultiTex.h"
+#include "Sprite.h"
 
 
 static std::mutex g_mutex;
@@ -28,6 +29,22 @@ static unsigned char g_key_event[256]={0};
 static unsigned char g_key_cur  [256]={0};
 static Touch g_touch_event[32]={0};
 static Touch g_touch_cur  [32]={0};
+
+static bool test_touch_rect(int touch_index, int touch_action, const LCXRECT& rc)
+{
+	const Touch* touch = &g_touch_cur[touch_index];
+	if(touch_action != touch->a)
+		return false;
+
+	if(	touch->x > rc.x          &&
+		touch->x < (rc.x + rc.w) &&
+		touch->y > rc.y          &&
+		touch->y < (rc.y + rc.h) )
+	{
+		return true;
+	}
+	return false;
+}
 
 void app_key_event(int index, int action)
 {
@@ -107,8 +124,9 @@ App* App::getInstance()
 App::App()
 	: m_fbo  {}
 	, m_cube {}
-	, m_multi{}
-	, m_cam  {}
+	, m_button{}
+	, m_cam3d{}
+	, m_cam_gui{}
 {
 }
 
@@ -117,19 +135,21 @@ App::~App()
 {
 }
 
-int App::Init()
+int App::Init(CPVOID, CPVOID, CPVOID, CPVOID)
 {
-	m_cam = GLCamera::create();
-	if(!m_cam)
+	m_cam3d = GLCamera::create(GLCamera::GLCAM_3D, "3d world");
+	if(!m_cam3d)
 		return -1;
-	GLCamera::globalCamera(std::string("3d world"), m_cam);
+	m_cam_gui = GLCamera::create(GLCamera::GLCAM_GUI, "gui");
+	if(!m_cam_gui)
+		return -1;
 
 	m_cube = new Dice;
 	if(0> m_cube->Init())
 		return -1;
 
-	m_multi = new MultiTex;
-	if(0> m_multi->Init())
+	m_button = Gui::createButton("media/texture/button.tga", "media/texture/white.tga");
+	if(!m_button)
 		return -1;
 
 	int vpt[8]={0};
@@ -143,28 +163,27 @@ int App::Destroy()
 {
 	SAFE_DELETE(m_fbo  );
 	SAFE_DELETE(m_cube );
-	SAFE_DELETE(m_multi);
-	SAFE_DELETE(m_cam  );
+	SAFE_DELETE(m_button);
+
+	GLCamera::remove(&m_cam3d);
+	GLCamera::remove(&m_cam_gui);
 	return 0;
 }
 
 int App::FrameMove()
 {
-	if(1 == g_touch_cur[0].a)
+	if(test_touch_rect(0, 1, LCXRECT(0,0, 300, 200)))
 	{
 		LOGI("App::FrameMove() touch -------------------------------------------------------");
 	}
-	m_cam->FrameMove();
-	m_multi->FrameMove();
+	m_cam3d->FrameMove();
+	m_button->FrameMove();
 	m_cube->FrameMove();
 	return 0;
 }
 
 int App::Render()
 {
-	//int error;
-	//while((error = glGetError()) != GL_NO_ERROR);
-
 	m_fbo->begin();
 	glEnable(GL_DEPTH_TEST);
 	glClearColor(0.0f, 0.4f, 0.6f, 1.0f);
@@ -173,9 +192,11 @@ int App::Render()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	m_multi->Render();
-	glClear(GL_DEPTH_BUFFER_BIT);
 	m_cube->Render();
+
+
+	glClear(GL_DEPTH_BUFFER_BIT);
+	m_button->Render();
 
 	m_fbo->end();
 	//glReadPixels(0, 0, 800, 600, GL_RGBA, GL_UNSIGNED_BYTE, m_work_pixel);

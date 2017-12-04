@@ -6,6 +6,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
+        //classpath 'com.google.gms:google-services:3.1.2'
     }
 }
 
@@ -37,8 +38,6 @@ android {
         minSdkVersion 18
         targetSdkVersion 26
         signingConfig signingConfigs.glbase
-        versionCode 4
-        versionName '1.0'
     }
     buildTypes {
         release {
@@ -116,10 +115,11 @@ android {
 }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.google.android.gms:play-services-auth:10.2.1'
-    compile 'com.google.android.gms:play-services-base:10.2.1'
-    compile 'com.google.android.gms:play-services-identity:10.2.1'
-    compile 'com.google.android.gms:play-services-gcm:10.2.1'
-    compile 'com.google.android.gms:play-services-games:10.2.1'
-    compile 'com.google.android.gms:play-services-plus:10.2.1'
+    compile 'com.google.android.gms:play-services-auth:9.4.0'
+    compile 'com.google.android.gms:play-services-base:9.4.0'
+    compile 'com.google.android.gms:play-services-identity:9.4.0'
+    compile 'com.google.android.gms:play-services-gcm:9.4.0'
+    compile 'com.google.android.gms:play-services-games:9.4.0'
+    compile 'com.google.android.gms:play-services-plus:9.4.0'
 }
+

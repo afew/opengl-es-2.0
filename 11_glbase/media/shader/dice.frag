@@ -2,6 +2,7 @@ precision mediump float;
 
 varying   vec2      vr_tex;
 varying   vec3      vr_nor;
+varying   vec3      vr_bnr;
 varying   vec3      vr_eye;
 
 uniform   vec3      lgt_dir;
@@ -16,11 +17,10 @@ void main() {
 	vec3 ct_nor  = normalize(texture2D(us_nor, vr_tex).xyz * 2.0 - 1.0);
 	vec3 nor     = normalize(vr_nor);
 
-	vec3 B = vec3(1.0, 0.0, 0.0);
-	vec3 T = vec3(0.0, 1.0, 0.0);
 	vec3 N = nor;
-	T = normalize(cross(N, B));
-	B = normalize(cross(T, N));
+	vec3 B = normalize(vr_bnr);//vec3(1.0, 0.0, 0.0);
+	vec3 T = normalize(cross(B, N));
+	     B = normalize(cross(T, N));
 
 	mat3 tm = mat3(B, T, N);
 

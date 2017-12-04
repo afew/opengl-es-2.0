@@ -27,7 +27,7 @@ Dice::~Dice()
 	Destroy();
 }
 
-int Dice::Init()
+int Dice::Init(CPVOID, CPVOID, CPVOID, CPVOID)
 {
 	m_tx0= GLTexture::createFromFile("media/texture/metal.tga");
 	if(!m_tx0)
@@ -68,10 +68,10 @@ int Dice::Init()
 		+1.000000F, +1.000000F, +1.000000F,
 		-1.000000F, +1.000000F, +1.000000F,
 
-		-1.000000F, -1.000000F, -1.000000F,
 		-1.000000F, +1.000000F, -1.000000F,
 		+1.000000F, +1.000000F, -1.000000F,
 		+1.000000F, -1.000000F, -1.000000F,
+		-1.000000F, -1.000000F, -1.000000F,
 	};
 	float nor[] =
 	{
@@ -104,6 +104,39 @@ int Dice::Init()
 		 0.000000F,  0.000000F, -1.000000F,
 		 0.000000F,  0.000000F, -1.000000F,
 		 0.000000F,  0.000000F, -1.000000F,
+
+	};
+	float bnr[] =			// binormal vector(x)
+	{
+		+1.000000F,  0.000000F,  0.000000F,
+		+1.000000F,  0.000000F,  0.000000F,
+		+1.000000F,  0.000000F,  0.000000F,
+		+1.000000F,  0.000000F,  0.000000F,
+
+		 0.000000F, +1.000000F,  0.000000F,
+		 0.000000F, +1.000000F,  0.000000F,
+		 0.000000F, +1.000000F,  0.000000F,
+		 0.000000F, +1.000000F,  0.000000F,
+
+		-1.000000F,  0.000000F,  0.000000F,
+		-1.000000F,  0.000000F,  0.000000F,
+		-1.000000F,  0.000000F,  0.000000F,
+		-1.000000F,  0.000000F,  0.000000F,
+
+		 0.000000F, -1.000000F,  0.000000F,
+		 0.000000F, -1.000000F,  0.000000F,
+		 0.000000F, -1.000000F,  0.000000F,
+		 0.000000F, -1.000000F,  0.000000F,
+
+		+1.000000F,  0.000000F,  0.000000F,
+		+1.000000F,  0.000000F,  0.000000F,
+		+1.000000F,  0.000000F,  0.000000F,
+		+1.000000F,  0.000000F,  0.000000F,
+
+		+1.000000F,  0.000000F,  0.000000F,
+		+1.000000F,  0.000000F,  0.000000F,
+		+1.000000F,  0.000000F,  0.000000F,
+		+1.000000F,  0.000000F,  0.000000F,
 
 	};
 	float tex[] =
@@ -148,9 +181,10 @@ int Dice::Init()
 		20, 21, 22, 20, 22, 23
 	};
 
-	glGenBuffers(4, &m_mesh.pos);
+	glGenBuffers(5, &m_mesh.pos);
 	glBindBuffer(GL_ARRAY_BUFFER, m_mesh.pos);	glBufferData(GL_ARRAY_BUFFER, sizeof(pos), pos, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, m_mesh.nor);	glBufferData(GL_ARRAY_BUFFER, sizeof(nor), nor, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, m_mesh.bnr);	glBufferData(GL_ARRAY_BUFFER, sizeof(bnr), bnr, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, m_mesh.tex);	glBufferData(GL_ARRAY_BUFFER, sizeof(tex), tex, GL_STATIC_DRAW);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_mesh.idx);	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(idx), idx, GL_STATIC_DRAW);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
@@ -164,7 +198,7 @@ int Dice::Destroy()
 
 	if(m_mesh.pos)
 	{
-		glDeleteBuffers(4, &m_mesh.pos);
+		glDeleteBuffers(5, &m_mesh.pos);
 		m_mesh.pos =0;
 	}
 	return 0;
@@ -180,7 +214,7 @@ int Dice::FrameMove()
 int	Dice::Render()
 {
 	static float c =0;
-	c += 0.5;
+	c += 2.0;
 
 	// setup the world matrix
 	LCXMATRIX	mtWld, mtS, mtZ, mtX, mtY;
@@ -189,7 +223,8 @@ int	Dice::Render()
 	mtS.Scaling(3,3,3);
 	mtZ.RotationZ( LCXToRadian((float)(c) ));
 	mtX.RotationX( LCXToRadian((float)(c) ));
-	mtY.RotationY( LCXToRadian((float)(c*2) ));
+	//mtY.RotationY( LCXToRadian((float)(c*4) ));
+
 	mtWld = mtX*mtZ;
 	mtWld *= mtS;
 
@@ -231,7 +266,8 @@ int	Dice::Render()
 
 	glEnableVertexAttribArray(0);	glBindBuffer(GL_ARRAY_BUFFER, m_mesh.pos);	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
 	glEnableVertexAttribArray(1);	glBindBuffer(GL_ARRAY_BUFFER, m_mesh.nor);	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	glEnableVertexAttribArray(2);	glBindBuffer(GL_ARRAY_BUFFER, m_mesh.tex);	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(2);	glBindBuffer(GL_ARRAY_BUFFER, m_mesh.bnr);	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(3);	glBindBuffer(GL_ARRAY_BUFFER, m_mesh.tex);	glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_mesh.idx);
 	glDrawElements(GL_TRIANGLES, 6*6, GL_UNSIGNED_SHORT, 0);
@@ -240,10 +276,12 @@ int	Dice::Render()
 	glEnableVertexAttribArray(0);	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glEnableVertexAttribArray(1);	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glEnableVertexAttribArray(2);	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glEnableVertexAttribArray(3);	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
+	glDisableVertexAttribArray(3);
 
 	m_prg->EndProgram();
 
