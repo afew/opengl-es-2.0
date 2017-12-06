@@ -126,7 +126,8 @@ public class MainActivity extends Activity
 				}
 				else
 				{
-					//SimpleAVRecorder.startRecording(0, 0);
+					if(0<x && x <400 && 0<y && y<200)
+						SimpleAVRecorder.startRecording("0");
 				}
 				break;
 			}

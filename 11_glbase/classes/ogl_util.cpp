@@ -79,7 +79,7 @@ GLTexture::~GLTexture()
 
 int GLTexture::Init(char* buffer, size_t size, int filterMinMag, int wrapMode)
 {
-	filterMinMag = GL_LINEAR_MIPMAP_NEAREST;
+	//filterMinMag = GL_NEAREST_MIPMAP_NEAREST;
 	int				nImgW = 0;
 	int				nImgH = 0;
 	int				nImgD = 0;
