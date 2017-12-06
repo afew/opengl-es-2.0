@@ -6,7 +6,7 @@
 
 	<uses-sdk
 		android:minSdkVersion="18"
-		android:targetSdkVersion="21" />
+		android:targetSdkVersion="26" />
 
 	<supports-screens
 		android:anyDensity="true"
@@ -19,6 +19,9 @@
 	<uses-feature android:name="android.hardware.touchscreen.multitouch" android:required="true" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+	<uses-permission android:name="android.permission.INTERNET"/>
+
 
 	<application
 		android:allowBackup="true"

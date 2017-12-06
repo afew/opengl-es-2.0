@@ -73,12 +73,20 @@ int Gui::FrameMove()
 
 int Gui::Render()
 {
-	LCXVEC2 Pos[] =
+	// Setting Rendering pipeline
+	glDisable( GL_DEPTH_TEST);
+	glDisable( GL_CULL_FACE );
+
+	GLCamera* cam = GLCamera::globalCamera("gui");
+	if(!cam)
+		return -1;
+
+	LCXVEC2 src_pos[] =
 	{
-		LCXVEC2(-1.0F, +0.0F),
-		LCXVEC2( 0.0F, +0.0F),
-		LCXVEC2( 0.0F, +1.0F),
-		LCXVEC2(-1.0F, +1.0F),
+		LCXVEC2(  0.0F, +64.0F),
+		LCXVEC2(128.0F, +64.0F),
+		LCXVEC2(128.0F, + 0.0F),
+		LCXVEC2(  0.0F, + 0.0F),
 	};
 	COLOR4F Dif[] =
 	{
@@ -95,11 +103,27 @@ int Gui::Render()
 		LCXVEC2(0.0F, 1.0F),
 	};
 
+	LCXVEC3 Pos[4];
+	LCXMATRIX matProj = *cam->Proj();
+	for(int i=0; i<4; ++i)
+	{
+		LCXVEC3 tmp(src_pos[i].x, src_pos[i].y, 0.0F);
+		matProj.TransformCoord(&Pos[i], &tmp);
+	}
+
+
 	m_prg->BeginProgram();
+
+	LCXMATRIX	mtWld;
+
+
+
+
 	m_prg->Texture("us_tx0", 0, m_tx0);
 	m_prg->Texture("us_tx1", 1, m_tx1);
 
-	glEnableVertexAttribArray(0);	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, &Pos[0]);
+
+	glEnableVertexAttribArray(0);	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, &Pos[0]);
 	glEnableVertexAttribArray(1);	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, 0, &Dif[0]);
 	glEnableVertexAttribArray(2);	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, &Tex[0]);
 

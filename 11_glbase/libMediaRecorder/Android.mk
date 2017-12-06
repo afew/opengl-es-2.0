@@ -8,7 +8,7 @@ ifdef _PRIMARY_WORK_
   LOCAL_CFLAGS  += -D_PRIMARY_WORK_
 else
   LOCAL_C_INCLUDES += $(LOCAL_PATH)/../cocos2dx/cocos
-  LOCAL_C_INCLUDES += $(LOCAL_PATH)/../cocos2dx/cocos/2d
+  LOCAL_C_INCLUDES += $(LOCAL_PATH)/../cocos2dx/include
 endif
 
 LOCAL_C_INCLUDES += $(LOCAL_PATH)

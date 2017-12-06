@@ -36,13 +36,12 @@
     <ClInclude Include="..\classes\MultiTex.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\classes\Sprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="..\classes\Gui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\libMediaRecorder\MediaRecorder.h" />
-    <ClInclude Include="..\libMediaRecorder\SimpleAVRecorderWin32.h" />
-    <ClInclude Include="..\libMediaRecorder\SimpleAVRecorderAOS.h" />
-    <ClInclude Include="..\libMediaRecorder\SimpleAVRecorderIOS.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\_pvr_sdk\Windows\Resources\shared.rc">
@@ -66,12 +65,12 @@
     <ClCompile Include="..\classes\MultiTex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\classes\Sprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="..\classes\Gui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\libMediaRecorder\SimpleAVRecorderAOS.cpp" />
-    <ClCompile Include="..\libMediaRecorder\SimpleAVRecorderWin32.cpp" />
-    <ClCompile Include="..\libMediaRecorder\MediaRecorder.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\media\shader\multi_tex2d.frag">
@@ -110,7 +109,5 @@
     <None Include="..\media\shader\gui.vert">
       <Filter>shader</Filter>
     </None>
-    <None Include="..\libMediaRecorder\SimpleAVRecorderIOS.mm" />
-    <None Include="..\libMediaRecorder\MediaRecorder.mm" />
   </ItemGroup>
 </Project>

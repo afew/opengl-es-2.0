@@ -7,8 +7,8 @@
 
 struct Mesh
 {
-	UINT pos, nor, tex;		// position, normal, texture id
-	UINT idx;				// index id
+	UINT pos, nor, bnr, tex;	// position, normal, binormalr, texture id
+	UINT idx;					// index id
 };
 
 class Dice : public RenderObject

@@ -50,8 +50,8 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_PRIMARY_WORK_;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\_pvr_sdk\Include;..\..\include;..\libMediaRecorder</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\_pvr_sdk\Include;..\..\include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
@@ -70,8 +70,8 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>_PRIMARY_WORK_;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\_pvr_sdk\Include;..\..\include;..\libMediaRecorder</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\_pvr_sdk\Include;..\..\include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
@@ -93,19 +93,14 @@
     <ClCompile Include="..\classes\Gui.cpp" />
     <ClCompile Include="..\classes\MultiTex.cpp" />
     <ClCompile Include="..\classes\ogl_util.cpp" />
-    <ClCompile Include="..\libMediaRecorder\MediaRecorder.cpp" />
-    <ClCompile Include="..\libMediaRecorder\SimpleAVRecorderAOS.cpp" />
-    <ClCompile Include="..\libMediaRecorder\SimpleAVRecorderWin32.cpp" />
+    <ClCompile Include="..\classes\Sprite.cpp" />
     <ClCompile Include="glbaseWin32.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\classes\Dice.h" />
     <ClInclude Include="..\classes\Gui.h" />
     <ClInclude Include="..\classes\MultiTex.h" />
-    <ClInclude Include="..\libMediaRecorder\MediaRecorder.h" />
-    <ClInclude Include="..\libMediaRecorder\SimpleAVRecorderAOS.h" />
-    <ClInclude Include="..\libMediaRecorder\SimpleAVRecorderIOS.h" />
-    <ClInclude Include="..\libMediaRecorder\SimpleAVRecorderWin32.h" />
+    <ClInclude Include="..\classes\Sprite.h" />
     <ClInclude Include="..\_pvr_sdk\Windows\Resources\resource.h" />
     <ClInclude Include="..\classes\App.h" />
     <ClInclude Include="..\classes\app_util.h" />
@@ -115,8 +110,6 @@
     <ResourceCompile Include="..\_pvr_sdk\Windows\Resources\shared.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\libMediaRecorder\MediaRecorder.mm" />
-    <None Include="..\libMediaRecorder\SimpleAVRecorderIOS.mm" />
     <None Include="..\media\shader\dice.frag" />
     <None Include="..\media\shader\dice.vert" />
     <None Include="..\media\shader\gui.frag" />

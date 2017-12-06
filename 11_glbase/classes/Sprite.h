@@ -1,24 +1,20 @@
 ﻿#pragma once
 
-#ifndef _App_H_
-#define _App_H_
+#ifndef _Sprite_H_
+#define _Sprite_H_
 
 #include "ogl_util.h"
-#include "Gui.h"
 
-class App : public RenderObject
+class Sprite : public RenderObject
 {
 protected:
-	GLFBO*			m_fbo   ={};
-	RenderObject*	m_cube  ={};
-	GuiObject*		m_button={};
-	GLCamera*		m_cam3d ={};
-	GLCamera*		m_cam_gui={};
+	GLProgram*		m_prg;
+	GLTexture*		m_tx0;
+	GLTexture*		m_tx1;
 
 public:
-	static App* getInstance();
-	App();
-	virtual ~App();
+	Sprite();
+	virtual ~Sprite();
 
 	virtual int Init      (CPVOID =NULL, CPVOID =NULL, CPVOID =NULL, CPVOID =NULL) override;
 	virtual int Destroy   () override;

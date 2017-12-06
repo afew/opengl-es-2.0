@@ -38,8 +38,8 @@ extern int app_draw();
 #define APPLICATION_NAME "opengl es 2.0 base"
 
 // Width and height of the window
-const unsigned int WindowWidth  = 1280;
-const unsigned int WindowHeight = 768;
+const unsigned int WindowWidth  = 800;
+const unsigned int WindowHeight = 480;
 
 HWND g_nativeWindow = NULL;
 void* NativeWindow() { return g_nativeWindow; }
