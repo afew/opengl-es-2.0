@@ -1,0 +1,116 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="shader">
+      <UniqueIdentifier>{27aadaae-614b-414c-a49b-0c6c5e911cea}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\_pvr_sdk\Windows\Resources\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\classes\App.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\classes\app_util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\classes\ogl_util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\classes\Dice.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\classes\MultiTex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\classes\Gui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\libMediaRecorder\MediaRecorder.h" />
+    <ClInclude Include="..\libMediaRecorder\SimpleAVRecorderWin32.h" />
+    <ClInclude Include="..\libMediaRecorder\SimpleAVRecorderAOS.h" />
+    <ClInclude Include="..\libMediaRecorder\SimpleAVRecorderIOS.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\_pvr_sdk\Windows\Resources\shared.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\classes\App.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\classes\app_util.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\classes\ogl_util.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="glbaseWin32.cpp" />
+    <ClCompile Include="..\classes\Dice.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\classes\MultiTex.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\classes\Gui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\libMediaRecorder\SimpleAVRecorderAOS.cpp" />
+    <ClCompile Include="..\libMediaRecorder\SimpleAVRecorderWin32.cpp" />
+    <ClCompile Include="..\libMediaRecorder\MediaRecorder.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\media\shader\multi_tex2d.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="..\media\shader\multi_tex2d.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="..\media\shader\simple.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="..\media\shader\simple.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="..\media\shader\simple3d.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="..\media\shader\simple3d.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="..\media\shader\tex2d.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="..\media\shader\tex2d.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="..\media\shader\dice.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="..\media\shader\dice.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="..\media\shader\gui.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="..\media\shader\gui.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="..\libMediaRecorder\SimpleAVRecorderIOS.mm" />
+    <None Include="..\libMediaRecorder\MediaRecorder.mm" />
+  </ItemGroup>
+</Project>
