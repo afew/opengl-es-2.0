@@ -13,23 +13,23 @@
 #endif
 
 #include "app_util.h"
-#include "Dice.h"
+#include "DiceEnv.h"
 
-static Dice* g_app = NULL;
+static DiceEnv* g_app = NULL;
 
-Dice::Dice()
+DiceEnv::DiceEnv()
 {
 }
 
 
-Dice::~Dice()
+DiceEnv::~DiceEnv()
 {
 	Destroy();
 }
 
-int Dice::Init(CPVOID, CPVOID, CPVOID, CPVOID)
+int DiceEnv::Init(CPVOID, CPVOID, CPVOID, CPVOID)
 {
-	m_tx0= GLTexture::createFromFile("media/texture/metal.tga");
+	m_tx0= GLTexture::createFromFile("media/texture/stones.tga");
 	if(!m_tx0)
 		return -1;
 
@@ -37,7 +37,7 @@ int Dice::Init(CPVOID, CPVOID, CPVOID, CPVOID)
 	if(!m_tx1)
 		return -1;
 
-	m_prg = GLProgram::createFromFile("media/shader/dice.vert", "media/shader/dice.frag");
+	m_prg = GLProgram::createFromFile("media/shader/env.vert", "media/shader/env.frag");
 	if(!m_prg)
 		return -1;
 
@@ -192,7 +192,7 @@ int Dice::Init(CPVOID, CPVOID, CPVOID, CPVOID)
 	return 0;
 }
 
-int Dice::Destroy()
+int DiceEnv::Destroy()
 {
 	SAFE_DELETE(m_prg);
 
@@ -204,14 +204,14 @@ int Dice::Destroy()
 	return 0;
 }
 
-int Dice::FrameMove()
+int DiceEnv::FrameMove()
 {
 	return 0;
 }
 
 
 
-int	Dice::Render()
+int	DiceEnv::Render()
 {
 	static float c =0;
 	c += 0.5;
@@ -246,13 +246,13 @@ int	Dice::Render()
 
 	m_prg->BeginProgram();
 
-	m_prg->Vector3("uf_cam", eye);
-	m_prg->Vector3("lgt_dir", lgt_dir);
-	m_prg->Color4 ("lgt_dif", lgt_dif);
+	//m_prg->Vector3("uf_cam", eye);
+	//m_prg->Vector3("lgt_dir", lgt_dir);
+	//m_prg->Color4 ("lgt_dif", lgt_dif);
 
 
 	m_prg->Texture("us_dif", 0, m_tx0);
-	m_prg->Texture("us_nor", 1, m_tx1);
+	//m_prg->Texture("us_nor", 1, m_tx1);
 
 
 	// get the location of uniform
@@ -265,9 +265,9 @@ int	Dice::Render()
 	}
 
 	glEnableVertexAttribArray(0);	glBindBuffer(GL_ARRAY_BUFFER, m_mesh.pos);	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	glEnableVertexAttribArray(1);	glBindBuffer(GL_ARRAY_BUFFER, m_mesh.nor);	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	glEnableVertexAttribArray(2);	glBindBuffer(GL_ARRAY_BUFFER, m_mesh.tzn);	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	glEnableVertexAttribArray(3);	glBindBuffer(GL_ARRAY_BUFFER, m_mesh.tex);	glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, 0, 0);
+//	glEnableVertexAttribArray(1);	glBindBuffer(GL_ARRAY_BUFFER, m_mesh.nor);	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, 0);
+//	glEnableVertexAttribArray(2);	glBindBuffer(GL_ARRAY_BUFFER, m_mesh.tzn);	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	glEnableVertexAttribArray(1);	glBindBuffer(GL_ARRAY_BUFFER, m_mesh.tex);	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_mesh.idx);
 	glDrawElements(GL_TRIANGLES, 6*6, GL_UNSIGNED_SHORT, 0);
@@ -275,13 +275,9 @@ int	Dice::Render()
 
 	glEnableVertexAttribArray(0);	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glEnableVertexAttribArray(1);	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glEnableVertexAttribArray(2);	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glEnableVertexAttribArray(3);	glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
-	glDisableVertexAttribArray(2);
-	glDisableVertexAttribArray(3);
 
 	m_prg->EndProgram();
 

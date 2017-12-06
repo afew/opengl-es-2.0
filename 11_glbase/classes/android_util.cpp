@@ -122,6 +122,22 @@ long long Jni_callStaticLongMethod(const char* clzz, const char* method)
 	return ret;
 }
 
+int Jni_callStaticIntMethod(const char* clzz, const char* method, const char* str)
+{
+	JNIEnv* env = NULL; jclass clz ={}; jmethodID mid ={};
+	int hr = find_java_static_method(&env, &clz, &mid, clzz, method, "(Ljava/lang/String;)I");
+	if(0 > hr)
+	{
+		LOGE("JNI::find method:: [%3d] %s:", __LINE__, __func__);
+		return NSDK_EFAIL;
+	}
+	jstring j_string = env->NewStringUTF(str);
+	int ret = env->CallStaticIntMethod(clz, mid, j_string);
+	env->DeleteLocalRef((jobject)j_string);
+	LOGI("Jni_callStaticIntMethod: %lld", ret);
+	return ret;
+}
+
 int Jni_callStaticVoidMethod(const char* clzz, const char* method)
 {
 	JNIEnv* env = NULL; jclass clz ={}; jmethodID mid ={};

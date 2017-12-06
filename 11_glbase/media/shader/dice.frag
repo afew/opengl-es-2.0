@@ -2,7 +2,7 @@ precision mediump float;
 
 varying   vec2      vr_tex;
 varying   vec3      vr_nor;
-varying   vec3      vr_bnr;
+varying   vec3      vr_tzn;
 varying   vec3      vr_eye;
 
 uniform   vec3      lgt_dir;
@@ -18,11 +18,11 @@ void main() {
 	vec3 nor     = normalize(vr_nor);
 
 	vec3 N = nor;
-	vec3 B = normalize(vr_bnr);//vec3(1.0, 0.0, 0.0);
-	vec3 T = normalize(cross(B, N));
-	     B = normalize(cross(T, N));
+	vec3 T = normalize(vr_tzn);
+	vec3 B = normalize(cross(T, N));
+	     T = normalize(cross(B, N));
 
-	mat3 tm = mat3(B, T, N);
+	mat3 tm = mat3(T, B, N);
 
 	nor = tm * ct_nor;
 

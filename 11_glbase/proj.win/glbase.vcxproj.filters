@@ -42,6 +42,9 @@
     <ClInclude Include="..\classes\Gui.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\classes\DiceEnv.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\_pvr_sdk\Windows\Resources\shared.rc">
@@ -69,6 +72,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\classes\Gui.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\classes\DiceEnv.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\classes\android_util.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -107,6 +116,12 @@
       <Filter>shader</Filter>
     </None>
     <None Include="..\media\shader\gui.vert">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="..\media\shader\env.frag">
+      <Filter>shader</Filter>
+    </None>
+    <None Include="..\media\shader\env.vert">
       <Filter>shader</Filter>
     </None>
   </ItemGroup>

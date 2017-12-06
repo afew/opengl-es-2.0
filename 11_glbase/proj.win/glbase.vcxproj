@@ -87,9 +87,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\classes\android_util.cpp" />
     <ClCompile Include="..\classes\App.cpp" />
     <ClCompile Include="..\classes\app_util.cpp" />
     <ClCompile Include="..\classes\Dice.cpp" />
+    <ClCompile Include="..\classes\DiceEnv.cpp" />
     <ClCompile Include="..\classes\Gui.cpp" />
     <ClCompile Include="..\classes\MultiTex.cpp" />
     <ClCompile Include="..\classes\ogl_util.cpp" />
@@ -98,6 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\classes\Dice.h" />
+    <ClInclude Include="..\classes\DiceEnv.h" />
     <ClInclude Include="..\classes\Gui.h" />
     <ClInclude Include="..\classes\MultiTex.h" />
     <ClInclude Include="..\classes\Sprite.h" />
@@ -112,6 +115,8 @@
   <ItemGroup>
     <None Include="..\media\shader\dice.frag" />
     <None Include="..\media\shader\dice.vert" />
+    <None Include="..\media\shader\env.frag" />
+    <None Include="..\media\shader\env.vert" />
     <None Include="..\media\shader\gui.frag" />
     <None Include="..\media\shader\gui.vert" />
     <None Include="..\media\shader\multi_tex2d.frag" />

@@ -1,11 +1,11 @@
 ﻿#pragma once
 
-#ifndef _Dice_H_
-#define _Dice_H_
+#ifndef _DiceEnv_H_
+#define _DiceEnv_H_
 
 #include "ogl_util.h"
 
-class Dice : public RenderObject
+class DiceEnv : public RenderObject
 {
 protected:
 	GLProgram*		m_prg  ={};
@@ -14,8 +14,8 @@ protected:
 	GLMesh			m_mesh ={};
 
 public:
-	Dice();
-	virtual ~Dice();
+	DiceEnv();
+	virtual ~DiceEnv();
 
 	virtual int Init      (CPVOID =NULL, CPVOID =NULL, CPVOID =NULL, CPVOID =NULL) override;
 	virtual int Destroy   () override;

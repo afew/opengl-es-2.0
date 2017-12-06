@@ -15,7 +15,7 @@
 
 #include "app_util.h"
 #include "App.h"
-#include "Dice.h"
+#include "DiceEnv.h"
 #include "MultiTex.h"
 #include "Sprite.h"
 
@@ -123,7 +123,7 @@ App* App::getInstance()
 
 App::App()
 	: m_fbo  {}
-	, m_cube {}
+	, m_dice {}
 	, m_button{}
 	, m_cam3d{}
 	, m_cam_gui{}
@@ -144,8 +144,8 @@ int App::Init(CPVOID, CPVOID, CPVOID, CPVOID)
 	if(!m_cam_gui)
 		return -1;
 
-	m_cube = new Dice;
-	if(0> m_cube->Init())
+	m_dice = new DiceEnv;
+	if(0> m_dice->Init())
 		return -1;
 
 	m_button = Gui::createButton("media/texture/button.tga", "media/texture/white.tga");
@@ -162,7 +162,7 @@ int App::Init(CPVOID, CPVOID, CPVOID, CPVOID)
 int App::Destroy()
 {
 	SAFE_DELETE(m_fbo  );
-	SAFE_DELETE(m_cube );
+	SAFE_DELETE(m_dice );
 	SAFE_DELETE(m_button);
 
 	GLCamera::remove(&m_cam3d);
@@ -178,7 +178,7 @@ int App::FrameMove()
 	}
 	m_cam3d->FrameMove();
 	m_button->FrameMove();
-	m_cube->FrameMove();
+	m_dice->FrameMove();
 	return 0;
 }
 
@@ -192,7 +192,7 @@ int App::Render()
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	m_cube->Render();
+	m_dice->Render();
 
 
 	glClear(GL_DEPTH_BUFFER_BIT);

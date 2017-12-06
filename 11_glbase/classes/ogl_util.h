@@ -198,6 +198,12 @@ public:
 
 //------------------------------------------------------------------------------
 
+struct GLMesh
+{
+	UINT pos, nor, tzn, tex;	// position, normal, tanzent, texture id
+	UINT idx;					// index id
+};
+
 
 #endif
 

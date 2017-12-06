@@ -10,7 +10,7 @@ class App : public RenderObject
 {
 protected:
 	GLFBO*			m_fbo   ={};
-	RenderObject*	m_cube  ={};
+	RenderObject*	m_dice  ={};
 	GuiObject*		m_button={};
 	GLCamera*		m_cam3d ={};
 	GLCamera*		m_cam_gui={};

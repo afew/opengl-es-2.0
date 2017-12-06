@@ -79,6 +79,7 @@ GLTexture::~GLTexture()
 
 int GLTexture::Init(char* buffer, size_t size, int filterMinMag, int wrapMode)
 {
+	filterMinMag = GL_LINEAR_MIPMAP_NEAREST;
 	int				nImgW = 0;
 	int				nImgH = 0;
 	int				nImgD = 0;
@@ -103,6 +104,7 @@ int GLTexture::Init(char* buffer, size_t size, int filterMinMag, int wrapMode)
 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, nImgW, nImgH, 0, GL_RGBA, GL_UNSIGNED_BYTE, pPxl);
 
+	glGenerateMipmap(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, tex_prev);
 	delete[] pPxl;
 
