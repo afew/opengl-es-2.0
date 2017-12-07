@@ -93,21 +93,19 @@ int GLTexture::Init(char* buffer, size_t size, int filterMinMag, int wrapMode)
 	if(0 >= m_tex)
 		return -1;
 
-	int tex_prev = 0;											// previous binding texture
-	glGetIntegerv(GL_TEXTURE_BINDING_2D, &tex_prev);			// get the stored texture
+	int store_tex = 0;											// previous binding texture
+	glGetIntegerv  (GL_TEXTURE_BINDING_2D, &store_tex);			// get the stored texture
 
-	glBindTexture(GL_TEXTURE_2D, m_tex);
+	glBindTexture  (GL_TEXTURE_2D, m_tex);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filterMinMag);//, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filterMinMag);//, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapMode);//, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapMode);//, GL_CLAMP_TO_EDGE);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, nImgW, nImgH, 0, GL_RGBA, GL_UNSIGNED_BYTE, pPxl);
-
+	glTexImage2D   (GL_TEXTURE_2D, 0, GL_RGBA, nImgW, nImgH, 0, GL_RGBA, GL_UNSIGNED_BYTE, pPxl);
 	glGenerateMipmap(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, tex_prev);
+	glBindTexture  (GL_TEXTURE_2D, store_tex);
 	delete[] pPxl;
-
 
 	m_filter = filterMinMag;
 	m_wrap   = wrapMode;
@@ -141,10 +139,9 @@ void GLTexture::BindStage(int stage, int filterMinMag, int wrapMode)
 void GLTexture::UnBindStage(int stage)
 {
 	glActiveTexture(GL_TEXTURE0 + stage);
-	glBindTexture(GL_TEXTURE_2D, 0);
+	glBindTexture  (GL_TEXTURE_2D, 0);
 	//if(0 == stage)
 	//	glDisable(GL_TEXTURE_2D);												W/Adreno-ES20(19516): <get_simple_queries:1544>: GL_INVALID_ENUM
-
 }
 
 int GLTexture::SetPixel(int w, int h, int f, int t, void* pxl)
@@ -156,12 +153,15 @@ int GLTexture::SetPixel(int w, int h, int f, int t, void* pxl)
 	if(0 >= m_tex)
 		return -1;
 
-	glBindTexture(GL_TEXTURE_2D, m_tex);
+	int store_tex = 0;											// previous binding texture
+	glGetIntegerv  (GL_TEXTURE_BINDING_2D, &store_tex);			// get the stored texture
+	glBindTexture  (GL_TEXTURE_2D, m_tex);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, m_filter);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, m_filter);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, m_wrap);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, m_wrap);
-	glTexImage2D(GL_TEXTURE_2D, 0, f, w, h, 0, f, t, pxl);
+	glTexImage2D   (GL_TEXTURE_2D, 0, f, w, h, 0, f, t, pxl);
+	glBindTexture  (GL_TEXTURE_2D, store_tex);
 	return 0;
 }
 
@@ -444,36 +444,32 @@ int GLFBO::Init(int w, int h)
 	if(!m_prg)
 		return -1;
 
-	glGetIntegerv(GL_TEXTURE_2D, &store_tex);
+	glGetIntegerv(GL_TEXTURE_BINDING_2D  , &store_tex);
 	glGetIntegerv(GL_RENDERBUFFER_BINDING, &store_rnd);
-	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &store_frm );
+	glGetIntegerv(GL_FRAMEBUFFER_BINDING , &store_frm);
 
-	glGenTextures(1, (GLuint*)&m_tex);
+	glGenTextures     (1, (GLuint*)&m_tex);
 	glGenRenderbuffers(1, (GLuint*)&m_rnd);
-	glGenFramebuffers(1, (GLuint*)&m_frm);
+	glGenFramebuffers (1, (GLuint*)&m_frm);
 
-	glBindTexture(GL_TEXTURE_2D, m_tex);
-	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-		glBindTexture(GL_TEXTURE_2D, store_tex);
-	}
+	// for color buffer
+	glBindTexture  (GL_TEXTURE_2D, m_tex);
+	glTexImage2D   (GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glBindTexture  (GL_TEXTURE_2D, store_tex);
 
-	glBindRenderbuffer(GL_RENDERBUFFER, m_rnd);
-	{
-		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, w, h);
-		glBindRenderbuffer(GL_RENDERBUFFER, store_rnd);
-	}
+	// for deptth buffer
+	glBindRenderbuffer   (GL_RENDERBUFFER, m_rnd);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT16, w, h);
+	glBindRenderbuffer   (GL_RENDERBUFFER, store_rnd);
 
-	glBindFramebuffer(GL_FRAMEBUFFER, m_frm);
-	{
-		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_tex, 0);
-		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_rnd);
-		glBindFramebuffer(GL_FRAMEBUFFER, store_frm);
-	}
+	glBindFramebuffer        (GL_FRAMEBUFFER, m_frm);
+	glFramebufferTexture2D   (GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_tex, 0);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_rnd);
+	glBindFramebuffer        (GL_FRAMEBUFFER, store_frm);
 
 	return 0;
 }
@@ -500,9 +496,9 @@ void GLFBO::Destroy()
 
 void GLFBO::begin()
 {
-	glGetIntegerv(GL_FRAMEBUFFER_BINDING, &store_frm );
+	glGetIntegerv    (GL_FRAMEBUFFER_BINDING, &store_frm );
 	glBindFramebuffer(GL_FRAMEBUFFER, m_frm);
-	checkGLError("GLFBO::begin()");
+	checkGLError     ("GLFBO::begin()");
 }
 
 void GLFBO::end()
