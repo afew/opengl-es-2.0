@@ -39,34 +39,27 @@ bool checkGLError(const char* functionLastCalled)
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 
-GLTexture* GLTexture::createFromFile(const char* file_name, int filterMinMag, int wrapMode)
+GLTexture* GLTexture::createFromFile(const char* file_name, int type, int filterMinMag, int wrapMode)
 {
-	FileData file_data(file_name);
-	if(0>=file_data.size())
-		return NULL;
-
 	GLTexture* ret = new GLTexture;
-	if(0>ret->Init(file_data.data(), file_data.size(), filterMinMag, wrapMode))
+	int hr = -1;
+	switch(type)
 	{
-		delete ret;
-		return NULL;
+		case TYPE_2D:	hr = ret->Init2D  (file_name, type, filterMinMag, wrapMode);	break;
+		case TYPE_CUBE:	hr = ret->InitCube(file_name, type, filterMinMag, wrapMode);	break;
+		default: break;
 	}
-	return ret;
-}
-
-GLTexture* GLTexture::createFromBuffer(char* buffer, size_t size, int filterMinMag, int wrapMode)
-{
-	GLTexture* ret = new GLTexture;
-	if(0>ret->Init(buffer, size, filterMinMag, wrapMode))
+	if(0>hr)
 	{
 		delete ret;
-		return NULL;
+		ret = NULL;
 	}
 	return ret;
 }
 
 GLTexture::GLTexture()
-	: m_tex(0)
+	: m_type(TYPE_2D)
+	, m_tex(0)
 	, m_filter(GL_LINEAR)
 	, m_wrap  (GL_CLAMP_TO_EDGE)
 {
@@ -77,15 +70,19 @@ GLTexture::~GLTexture()
 	Destroy();
 }
 
-int GLTexture::Init(char* buffer, size_t size, int filterMinMag, int wrapMode)
+int GLTexture::Init2D(const char* file_name, int type, int filterMinMag, int wrapMode)
 {
+	FileData file_data(file_name);
+	if(0>=file_data.size())
+		return NULL;
+
 	//filterMinMag = GL_NEAREST_MIPMAP_NEAREST;
 	int				nImgW = 0;
 	int				nImgH = 0;
 	int				nImgD = 0;
 	unsigned char*	pPxl  = NULL;
 
-	int hr = LoadTGA(&nImgW, &nImgH, &nImgD, &pPxl, buffer, size);
+	int hr = LoadTGA(&nImgW, &nImgH, &nImgD, &pPxl, file_data.data(), file_data.size());
 	if(0>hr)
 		return -1;
 
@@ -101,12 +98,81 @@ int GLTexture::Init(char* buffer, size_t size, int filterMinMag, int wrapMode)
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filterMinMag);//, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapMode);//, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrapMode);//, GL_CLAMP_TO_EDGE);
-
 	glTexImage2D   (GL_TEXTURE_2D, 0, GL_RGBA, nImgW, nImgH, 0, GL_RGBA, GL_UNSIGNED_BYTE, pPxl);
 	glGenerateMipmap(GL_TEXTURE_2D);
-	glBindTexture  (GL_TEXTURE_2D, store_tex);
 	delete[] pPxl;
+	glBindTexture  (GL_TEXTURE_2D, store_tex);
 
+	m_type   = type;
+	m_filter = filterMinMag;
+	m_wrap   = wrapMode;
+	return (int)m_tex;
+}
+
+int GLTexture::InitCube(const char* file_name, int type, int filterMinMag, int wrapMode)
+{
+	std::vector<std::string > file_cube=
+	{
+		"media/texture/env/0cm_right.tga",
+		"media/texture/env/1cm_left.tga",
+		"media/texture/env/2cm_top.tga",
+		"media/texture/env/3cm_bottom.tga",
+		"media/texture/env/4cm_front.tga",
+		"media/texture/env/5cm_back.tga",
+	};
+	FileData file_data(file_name);
+	if(0>=file_data.size())
+		return -1;
+
+	//std::string str_data = (const char*)file_data.data();
+	//char* chr_cur = NULL;
+	//char* chr_end = chr_bgn + file_data.size();
+	//while(chr_bgn<chr_end)
+	//{
+	//	if(*chr_bgn =='\n' || *chr_bgn =='\r')
+	//		chr_bgn++;
+	//	else
+	//		break;
+	//}
+	//std::string str_t =str_data.erase(str_data.find_last_not_of(" \t\n\r\v")+1);
+	//str_t.erase(0, str_t.find_first_not_of(" \t\n\r\v"));
+
+	if(6>file_cube.size())
+		return -1;
+
+	glGenTextures(1, (GLuint *)&m_tex);
+	if(0 >= m_tex)
+		return -1;
+
+	int store_tex = 0;											// previous binding texture
+	glGetIntegerv  (GL_TEXTURE_BINDING_CUBE_MAP, &store_tex);	// get the stored texture
+
+	glBindTexture  (GL_TEXTURE_CUBE_MAP, m_tex);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, filterMinMag);//, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, filterMinMag);//, GL_NEAREST_MIPMAP_NEAREST);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, wrapMode);//, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, wrapMode);//, GL_CLAMP_TO_EDGE);
+	for(size_t i=0; i<file_cube.size(); ++i)
+	{
+		int				nImgW = 0;
+		int				nImgH = 0;
+		int				nImgD = 0;
+		unsigned char*	pPxl  = NULL;
+
+		FileData file_image(file_cube[i].c_str());
+		if(0>=file_image.size())
+			continue;
+
+		int hr = LoadTGA(&nImgW, &nImgH, &nImgD, &pPxl, file_image.data(), file_image.size());
+		if(0>hr)
+			continue;
+
+		glTexImage2D (GL_TEXTURE_CUBE_MAP_POSITIVE_X+i, 0, GL_RGBA, nImgW, nImgH, 0, GL_RGBA, GL_UNSIGNED_BYTE, pPxl);
+		delete[] pPxl;
+	}
+	glBindTexture  (GL_TEXTURE_CUBE_MAP, store_tex);
+
+	m_type   = type;
 	m_filter = filterMinMag;
 	m_wrap   = wrapMode;
 	return (int)m_tex;
@@ -128,18 +194,37 @@ void GLTexture::BindStage(int stage, int filterMinMag, int wrapMode)
 
 	glActiveTexture(GL_TEXTURE0 + stage);
 	//glEnable(GL_TEXTURE_2D);													W/Adreno-ES20(19516): <get_simple_queries:1544>: GL_INVALID_ENUM
-	glBindTexture(GL_TEXTURE_2D, m_tex);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrap);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrap);
+	switch(m_type)
+	{
+		case TYPE_2D:
+			glBindTexture  (GL_TEXTURE_2D      , m_tex);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, filter);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, filter);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrap);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, wrap);
+			break;
+		case TYPE_CUBE:
+			glBindTexture  (GL_TEXTURE_CUBE_MAP, m_tex);
+			glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, filter);
+			glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, filter);
+			glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, wrap);
+			glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, wrap);
+			break;
+		default: break;
+	}
+
 }
 
 void GLTexture::UnBindStage(int stage)
 {
 	glActiveTexture(GL_TEXTURE0 + stage);
-	glBindTexture  (GL_TEXTURE_2D, 0);
+	switch(m_type)
+	{
+		case TYPE_2D:	glBindTexture  (GL_TEXTURE_2D      , 0);	break;
+		case TYPE_CUBE:	glBindTexture  (GL_TEXTURE_CUBE_MAP, 0);	break;
+		default: break;
+	}
 	//if(0 == stage)
 	//	glDisable(GL_TEXTURE_2D);												W/Adreno-ES20(19516): <get_simple_queries:1544>: GL_INVALID_ENUM
 }
@@ -683,9 +768,9 @@ void GLCamera::Up(const LCXVEC3& up)
 
 GLCamera3D::GLCamera3D()
 {
-	v3_eye = LCXVEC3(0, -20, 0);
+	v3_eye = LCXVEC3(0,  0, 20);
 	v3_look= LCXVEC3(0,   0, 0);
-	v3_up  = LCXVEC3(0,   0, 1);
+	v3_up  = LCXVEC3(0,   1, 0);
 	b_update = true;
 }
 

@@ -104,7 +104,6 @@ int Dice::Init(CPVOID, CPVOID, CPVOID, CPVOID)
 		 0.000000F,  0.000000F, -1.000000F,
 		 0.000000F,  0.000000F, -1.000000F,
 		 0.000000F,  0.000000F, -1.000000F,
-
 	};
 	float tzn[] =			// tanzent vector(x)
 	{
@@ -137,7 +136,6 @@ int Dice::Init(CPVOID, CPVOID, CPVOID, CPVOID)
 		+1.000000F,  0.000000F,  0.000000F,
 		+1.000000F,  0.000000F,  0.000000F,
 		+1.000000F,  0.000000F,  0.000000F,
-
 	};
 	float tex[] =
 	{
@@ -240,13 +238,8 @@ int	Dice::Render()
 	LCXVEC3 lgt_dir(  +0.001F, 0.999F, 0);
 	COLOR4F lgt_dif(1.1F,   0.85F, 0.2F, 1.0F);
 
-	LCXVEC3	eye(0, -20, 0);
-	LCXVEC3	look(0,0,0);
-
-
 	m_prg->BeginProgram();
 
-	m_prg->Vector3("uf_cam", eye);
 	m_prg->Vector3("lgt_dir", lgt_dir);
 	m_prg->Color4 ("lgt_dif", lgt_dif);
 
@@ -259,6 +252,7 @@ int	Dice::Render()
 	GLCamera* cam = GLCamera::globalCamera("3d world");
 	if(cam)
 	{
+		m_prg->Vector3("uf_cam", (GLfloat*)cam->Eye());
 		m_prg->Matrix16("um_Wld", (GLfloat*)&mtWld);
 		m_prg->Matrix16("um_Viw", (GLfloat*)cam->View());
 		m_prg->Matrix16("um_Prj", (GLfloat*)cam->Proj());

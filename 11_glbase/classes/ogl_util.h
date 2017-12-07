@@ -29,25 +29,35 @@ struct RenderObject
 
 class GLTexture
 {
+public:
+	enum
+	{
+		TYPE_NONE = 0,
+		TYPE_2D   = 2,
+		TYPE_3D   = 3,
+		TYPE_CUBE = 6,
+	};
 protected:
+	int m_type;
 	int m_tex;
 	int m_filter;
 	int m_wrap;
 
 public:
-	static GLTexture* createFromFile(const char* file_name, int filterMinMag = GL_LINEAR, int wrapMode = GL_CLAMP_TO_EDGE);
-	static GLTexture* createFromBuffer(char* buffer, size_t size, int filterMinMag = GL_LINEAR, int wrapMode = GL_CLAMP_TO_EDGE);
+	static GLTexture* createFromFile(const char* file_name, int type=TYPE_2D, int filterMinMag = GL_LINEAR, int wrapMode = GL_CLAMP_TO_EDGE);
 
 public:
 	GLTexture();
 	virtual ~GLTexture();
 
-	int  Init(char* buffer, size_t size, int filterMinMag = GL_LINEAR, int wrapMode = GL_CLAMP_TO_EDGE);
+	int  Init2D(const char* file_name, int type, int filterMinMag, int wrapMode);
+	int  InitCube(const char* file_name, int type, int filterMinMag, int wrapMode);
 	void Destroy();
 	void BindStage   (int stage, int filterMinMag = 0, int wrapMode = 0);
 	void UnBindStage (int stage);
 	int  SetPixel    (int w, int h, int f, int t, void* pxl);
-	int  TexID       () { return m_tex; }
+	int  TexType     () const { return m_type; }
+	int  TexID       () const { return m_tex; }
 };
 
 //------------------------------------------------------------------------------
@@ -201,6 +211,12 @@ public:
 struct GLMesh
 {
 	UINT pos, nor, tzn, tex;	// position, normal, tanzent, texture id
+	UINT idx;					// index id
+};
+
+struct GLMeshCube
+{
+	UINT pos, nor, tex;			// position, normal, texture id
 	UINT idx;					// index id
 };
 
