@@ -1,8 +1,5 @@
 package com.glc.glbase;
 
-import gpgs.media.SimpleAVRecorder;
-import pwork.service.GoogleSignIn;
-
 import android.app.Activity;
 import android.content.res.AssetManager;
 import android.content.Intent;
@@ -29,8 +26,6 @@ public class MainActivity extends Activity
 	public static MainView      main_view= null;
 	public static int           main_screen_w = 0;
 	public static int           main_screen_h = 0;
-
-	public GoogleSignIn        main_googleSignIn = null;
 
 	public static GLSurfaceView getMainSurfaceView()
 	{
@@ -62,18 +57,11 @@ public class MainActivity extends Activity
 		System.loadLibrary("g-pack");
 		MainActivity.main_view = new MainView(getApplication());
 		setContentView(main_view);
-
-		main_googleSignIn = new GoogleSignIn(this);
 	}
 
 	@Override protected void onDestroy()
 	{
 		super.onDestroy();
-		if(null != main_googleSignIn)
-		{
-			main_googleSignIn.signOut();
-			main_googleSignIn = null;
-		}
 	}
 	@Override protected void onResume()
 	{
@@ -120,15 +108,6 @@ public class MainActivity extends Activity
 			case MotionEvent.ACTION_UP:
 			{
 				touchEvent(index, 2, x, y);
-				if(!GoogleSignIn.isSignedIn())
-				{
-					GoogleSignIn.signIn();
-				}
-				else
-				{
-					if(0<x && x <400 && 0<y && y<200)
-						SimpleAVRecorder.startRecording("0");
-				}
 				break;
 			}
 			default:
@@ -145,30 +124,14 @@ public class MainActivity extends Activity
 	@Override protected void onStart()
 	{
 		super.onStart();
-		AppUtil.LOGI("onStart(): connecting");
-		if(GoogleSignIn.isSignedIn())
-			GoogleSignIn.connect();
 	}
 
 	@Override protected void onStop()
 	{
 		super.onStop();
-		AppUtil.LOGI("onStop(): disconnecting");
-		GoogleSignIn.signOut();
 	}
 	@Override protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
-		if(requestCode == GoogleSignIn.GPGS_RESOLUTION )
-		{
-			if (resultCode == Activity.RESULT_OK)
-			{
-				GoogleSignIn.connect();
-			}
-		}
-		else if(requestCode == SimpleAVRecorder.GPGS_RECORDING)
-		{
-			SimpleAVRecorder.onActivityResult(requestCode, resultCode, data);
-		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
@@ -197,4 +160,3 @@ public class MainActivity extends Activity
 	}
 
 }
-

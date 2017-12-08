@@ -4,21 +4,13 @@ import android.app.Activity;
 import android.content.res.AssetManager;
 import android.content.Intent;
 import android.graphics.Point;
+import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.games.Games;
-import com.google.android.gms.games.Player;
-
-
-public class MainActivity
-	extends Activity
-	implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener
+public class MainActivity extends Activity
 {
 	// for native
 	public static native void keyEvent(int index, int action);
@@ -35,13 +27,14 @@ public class MainActivity
 	public static int           main_screen_w = 0;
 	public static int           main_screen_h = 0;
 
-	// for google play service
-	private GoogleApiClient    gpgs_googleClient = null;
-	private boolean            gpgs_resolving = false;		// for resolving connection
-
-	private static final int   GPGS_RESOLUTION = 10000;
-	private static final int   GPGS_RECORDING  = 20000;
-
+	public static GLSurfaceView getMainSurfaceView()
+	{
+		return main_view;
+	}
+	public static Activity getMainActivity()
+	{
+		return main_act;
+	}
 
 	@Override protected void onCreate(Bundle savedInstanceState)
 	{
@@ -64,17 +57,6 @@ public class MainActivity
 		System.loadLibrary("g-pack");
 		MainActivity.main_view = new MainView(getApplication());
 		setContentView(main_view);
-
-		// Create the Google API Client with access to Games
-		gpgs_googleClient = new GoogleApiClient.Builder(this)
-				.addConnectionCallbacks(this)
-				.addOnConnectionFailedListener(this)
-				.addApi(Games.API)
-				.addScope(Games.SCOPE_GAMES)
-				//.addApi(Plus.API)
-				//.addScope(Plus.SCOPE_PLUS_LOGIN)
-				//.addScope(Plus.SCOPE_PLUS_PROFILE)
-				.build();
 	}
 
 	@Override protected void onDestroy()
@@ -126,14 +108,6 @@ public class MainActivity
 			case MotionEvent.ACTION_UP:
 			{
 				touchEvent(index, 2, x, y);
-				if(!isSignedIn())
-				{
-					signIn();
-				}
-				else
-				{
-					startVideoRecording();
-				}
 				break;
 			}
 			default:
@@ -147,117 +121,22 @@ public class MainActivity
 
 	// siginning and recording
 
-	private boolean isSignedIn()
-	{
-		return (gpgs_googleClient != null && gpgs_googleClient.isConnected());
-	}
-
 	@Override protected void onStart()
 	{
 		super.onStart();
-		AppUtil.LOGI("onStart(): connecting");
-		gpgs_googleClient.connect();
 	}
 
 	@Override protected void onStop()
 	{
 		super.onStop();
-		AppUtil.LOGI("onStop(): disconnecting");
-		signOut();
 	}
 	@Override protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{
-		if(requestCode == GPGS_RESOLUTION)
-		{
-			if (resultCode == Activity.RESULT_OK)
-			{
-				gpgs_googleClient.connect();
-			}
-		}
-		else if(requestCode == GPGS_RECORDING)
-		{
-			AppUtil.Toast("start VideoRecording() :: request result: " + resultCode);
-		}
 		super.onActivityResult(requestCode, resultCode, data);
 	}
 
-	public void signIn()
-	{
-		gpgs_resolving = false;
-		gpgs_googleClient.connect();
-		AppUtil.LOGI("start signIn -------------------------------------");
-	}
 
-	public void signOut()
-	{
-		Games.signOut(gpgs_googleClient);
-		if (gpgs_googleClient.isConnected())
-		{
-			gpgs_googleClient.disconnect();
-		}
-		AppUtil.LOGI("sign Out    -------------------------------------");
-	}
 
-	@Override public void onConnected(Bundle bundle)
-	{
-		AppUtil.LOGI("onConnected(): connected to Google APIs");
-
-		Player p = Games.Players.getCurrentPlayer(gpgs_googleClient);
-		if(p == null)
-		{
-			AppUtil.Toast("onConnected(): player : NULL");
-		}
-		else
-		{
-			AppUtil.Toast("onConnected(): player : " + p.getDisplayName() );
-		}
-	}
-
-	@Override public void onConnectionSuspended(int i)
-	{
-		AppUtil.LOGI("onConnectionSuspended(): attempting to connect");
-		gpgs_googleClient.connect();
-	}
-
-	@Override public void onConnectionFailed(ConnectionResult result)
-	{
-		AppUtil.LOGI("onConnectionFailed(): " + result.toString());
-		if (gpgs_resolving)
-		{
-			AppUtil.LOGW("onConnectionFailed(): already resolving");
-			return;
-		}
-
-		gpgs_resolving = true;			// startResolutionForResult 재시도 방지
-		if (result.hasResolution())
-		{
-			try
-			{
-				result.startResolutionForResult(this, GPGS_RESOLUTION);
-				AppUtil.LOGI("onConnectionFailed(): startResolutionForResult");
-			}
-			catch (Exception e)
-			{
-				AppUtil.LOGW("onConnectionFailed(): startResolutionForResult:: failed");
-			}
-		}
-	}
-
-	public void startVideoRecording()
-	{
-		if(!isSignedIn())
-			return;
-		AppUtil.LOGI("start VideoRecording");
-		if(!hasLollipopApi())
-			return;
-
-		Intent intent = Games.Videos.getCaptureOverlayIntent(gpgs_googleClient);
-		startActivityForResult(intent, GPGS_RECORDING);
-	}
-	public static boolean hasLollipopApi()
-	{
-		return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP;
-	}
 
 	//----------------------------------------------------------------------------------------------
 	//----------------------------------------------------------------------------------------------
@@ -281,4 +160,3 @@ public class MainActivity
 	}
 
 }
-

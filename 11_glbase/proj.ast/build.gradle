@@ -13,32 +13,20 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
-        maven { url "https://maven.google.com" }
     }
 }
 
 apply plugin: 'com.android.application'
-//apply plugin: 'cpp'
-//apply plugin: 'com.google.gms.google-services'
 
 File pvrSdkDir = file("${project.buildDir}/../../../../../../../")
 
 android {
-    signingConfigs {
-        glbase {
-            keyAlias 'glbase'
-            keyPassword 'rkfflr314'
-            storeFile file('glbasekey.keystore')
-            storePassword 'rkfflr314'
-        }
-    }
     compileSdkVersion 26
     buildToolsVersion '27.0.1'
     defaultConfig {
         applicationId "com.glc.glbase"
         minSdkVersion 18
         targetSdkVersion 26
-        signingConfig signingConfigs.glbase
     }
     buildTypes {
         release {
@@ -46,13 +34,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable false
             jniDebuggable false
-            signingConfig signingConfigs.glbase
             renderscriptDebuggable false
         }
         debug {
             jniDebuggable true
             debuggable true
-            signingConfig signingConfigs.glbase
             renderscriptDebuggable true
         }
     }
@@ -67,8 +53,6 @@ android {
             assets.srcDirs = ['assets']
             //jni.srcDirs = ['jni']
             jniLibs.srcDir 'libs'
-            java.srcDirs += 'lib_java_src/recording'
-            java.srcDirs += 'lib_java_src/signin'
         }
     }
    // sourceSets.main.jni.srcDirs.add("E:/_document/GitHub/opengl-es-2.0/10glbmath".toString())
@@ -119,11 +103,5 @@ android {
 }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.google.android.gms:play-services-auth:9.4.0'
-    compile 'com.google.android.gms:play-services-base:9.4.0'
-    compile 'com.google.android.gms:play-services-identity:9.4.0'
-    compile 'com.google.android.gms:play-services-gcm:9.4.0'
-    compile 'com.google.android.gms:play-services-games:9.4.0'
-    compile 'com.google.android.gms:play-services-plus:9.4.0'
 }
 

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">ScreenRecord</string>
+    <string name="app_name">OglBase</string>
     <string name="hello_world">Hello world!</string>
-    <string name="app_id">397385755939</string>
 </resources>
