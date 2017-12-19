@@ -628,6 +628,8 @@ struct LCXVECTOR2 : public LC_FLOAT2
 };
 typedef LCXVECTOR2	LCXVEC2;
 typedef LCXVECTOR2	VEC2;
+typedef LCXVECTOR2	SIZE2F;
+typedef LCXVECTOR2	POINT2F;
 
 
 // vector3 x=0, y=0, z=0
@@ -708,6 +710,8 @@ struct LCXVECTOR3 : public LC_FLOAT3
 };
 typedef LCXVECTOR3	LCXVEC3;
 typedef LCXVECTOR3	VEC3;
+typedef LCXVECTOR3	SIZE3F;
+typedef LCXVECTOR3	POINT3F;
 
 
 // vector4 x=0, y=0, z=0, w=0
@@ -774,6 +778,8 @@ struct LCXVECTOR4 : public LC_FLOAT4
 };
 typedef LCXVECTOR4	LCXVEC4;
 typedef LCXVECTOR4	VEC4;
+typedef LCXVECTOR4	SIZE4F;
+typedef LCXVECTOR4	POINT4F;
 
 
 
