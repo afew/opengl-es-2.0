@@ -113,12 +113,12 @@ int GLTexture::InitCube(const char* file_name, int type, int filterMinMag, int w
 {
 	std::vector<std::string > file_cube=
 	{
-		"media/texture/env/0cm_right.tga",
 		"media/texture/env/1cm_left.tga",
-		"media/texture/env/2cm_top.tga",
+		"media/texture/env/0cm_right.tga",
 		"media/texture/env/3cm_bottom.tga",
-		"media/texture/env/4cm_front.tga",
+		"media/texture/env/2cm_top.tga",
 		"media/texture/env/5cm_back.tga",
+		"media/texture/env/4cm_front.tga",
 	};
 	FileData file_data(file_name);
 	if(0>=file_data.size())

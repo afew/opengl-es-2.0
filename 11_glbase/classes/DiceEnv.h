@@ -8,9 +8,11 @@
 class DiceEnv : public RenderObject
 {
 protected:
-	GLProgram*		m_prg  ={};
-	GLTexture*		m_cube ={};		// diffuse
-	GLMeshCube		m_mesh ={};
+	GLProgram*		m_prg    {};
+	GLTexture*		m_cube   {};		// diffuse
+	GLMeshCube		mesh_cube{};
+	GLMeshCube		mesh_sphere{};
+	int             sphere_triangle;
 
 public:
 	DiceEnv();

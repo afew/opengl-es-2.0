@@ -1,8 +1,6 @@
-
-			
-	0cm_right.tga
+0cm_right.tga
 1cm_back.tga
 2cm_left.tga
 3cm_front.tga
-4cm_bottom.tga
 5cm_top.tga
+4cm_bottom.tga
