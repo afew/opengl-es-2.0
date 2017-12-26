@@ -261,6 +261,20 @@ int	DiceEnv::Render()
 	GLCamera* cam = GLCamera::globalCamera("3d world");
 	if(cam)
 	{
+		static float radius = 15.0F;
+		static int angle = 0;
+		++angle;
+		if(360 <= angle)
+			angle = 0;
+
+		LCXVEC3 lookat (0,0,0);
+		LCXVEC3 eye(cosf(LCXToRadian(angle)), 0, -sinf(LCXToRadian(angle)));
+		eye *= radius;
+
+		cam->LookAt(lookat);
+		cam->Eye(eye);
+		cam->FrameMove();
+
 		m_prg->Vector3("uf_cam", (GLfloat*)cam->Eye());
 		m_prg->Matrix16("um_Wld", (GLfloat*)&mtWld);
 		m_prg->Matrix16("um_Viw", (GLfloat*)cam->View());
