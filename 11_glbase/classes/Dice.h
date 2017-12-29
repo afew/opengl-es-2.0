@@ -8,10 +8,11 @@
 class Dice : public RenderObject
 {
 protected:
-	GLProgram*		m_prg  ={};
-	GLTexture*		m_tx0  ={};		// diffuse
-	GLTexture*		m_tx1  ={};		// normal
-	GLMesh			m_mesh ={};
+	GLProgram*		m_prg  {};
+	GLTexture*		m_tx0  {};		// diffuse
+	GLTexture*		m_tx1  {};		// normal
+	GLTexture*		m_cube {};		// diffuse
+	GLMesh			m_mesh {};
 
 public:
 	Dice();

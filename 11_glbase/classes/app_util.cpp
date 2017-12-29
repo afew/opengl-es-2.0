@@ -1,6 +1,7 @@
 ﻿#include <vector>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <math.h>
 
 #if defined(ANDROID) || defined(__ANDROID__)

@@ -21,7 +21,7 @@ LOCAL_SRC_FILES  := app_main.cpp
 LOCAL_C_INCLUDES := $(LOCAL_PATH)
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../classes
 LOCAL_C_INCLUDES += $(LOCAL_PATH)/../../../include
-LOCAL_WHOLE_STATIC_LIBRARIES := gamelogic mediarecorder
+LOCAL_WHOLE_STATIC_LIBRARIES := gamelogic
 
 LOCAL_CFLAGS := -w
 ifdef _PRIMARY_WORK_

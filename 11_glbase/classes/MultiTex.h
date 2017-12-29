@@ -8,9 +8,9 @@
 class MultiTex : public RenderObject
 {
 protected:
-	GLProgram*		m_prg;
-	GLTexture*		m_tx0;
-	GLTexture*		m_tx1;
+	GLProgram*		m_prg {};
+	GLTexture*		m_tx0 {};
+	GLTexture*		m_tx1 {};
 
 public:
 	MultiTex();

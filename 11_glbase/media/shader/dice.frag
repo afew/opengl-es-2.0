@@ -2,14 +2,15 @@ precision mediump float;
 
 varying   vec2      vr_tex;
 varying   vec3      vr_nor;
-varying   vec3      vr_tzn;
 varying   vec3      vr_eye;
+varying   vec3      vr_tzn;
 
 uniform   vec3      lgt_dir;
 uniform   vec4      lgt_dif;
 
 uniform   sampler2D us_dif;
 uniform   sampler2D us_nor;
+uniform   samplerCube us_cube;
 
 void main() {
 	vec4 ct_dif  = texture2D(us_dif, vr_tex);
@@ -40,7 +41,11 @@ void main() {
 	float   gray = (ct_dif.r + ct_dif.g + ct_dif.b) * 0.334;
 			gray = pow(gray, 2.0)*1.2;
 
+	vec3 r_cube  = reflect(eye, nor);
+	vec4 ct_cube = textureCube(us_cube, r_cube);
 
-	gl_FragColor.rgb = gray * lgt_dif.rgb * lgt;
+	//gl_FragColor.rgb = ct_cube.rgb;
+	ct_cube.rgb = clamp(ct_cube.rgb *4.0, 0.0, 1.0);
+	gl_FragColor.rgb = ct_cube.rgb* gray * lgt_dif.rgb * lgt;
 	gl_FragColor.a   = ct_dif.a   * lgt_dif.a;
 }

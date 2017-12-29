@@ -15,6 +15,7 @@
 
 #include "app_util.h"
 #include "App.h"
+#include "Dice.h"
 #include "DiceEnv.h"
 #include "MultiTex.h"
 #include "Sprite.h"
@@ -144,7 +145,7 @@ int App::Init(CPVOID, CPVOID, CPVOID, CPVOID)
 	if(!m_cam_gui)
 		return -1;
 
-	m_dice = new DiceEnv;
+	m_dice = new Dice;
 	if(0> m_dice->Init())
 		return -1;
 

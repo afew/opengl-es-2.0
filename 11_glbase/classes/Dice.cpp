@@ -37,6 +37,11 @@ int Dice::Init(CPVOID, CPVOID, CPVOID, CPVOID)
 	if(!m_tx1)
 		return -1;
 
+	m_cube= GLTexture::createFromFile("media/texture/env/env0_file.txt", GLTexture::TYPE_CUBE);
+	if(!m_cube)
+		return -1;
+
+
 	m_prg = GLProgram::createFromFile("media/shader/dice.vert", "media/shader/dice.frag");
 	if(!m_prg)
 		return -1;
@@ -212,6 +217,7 @@ int Dice::FrameMove()
 int	Dice::Render()
 {
 	static float c =0;
+	//c = 420.5;
 	c += 0.5;
 
 	// setup the world matrix
@@ -235,7 +241,7 @@ int	Dice::Render()
 	glEnable( GL_CULL_FACE );
 
 
-	LCXVEC3 lgt_dir(  +0.001F, 0.999F, 0);
+	LCXVEC3 lgt_dir(  +0.001F, 0.0F, -0.999F);
 	COLOR4F lgt_dif(1.1F,   0.85F, 0.2F, 1.0F);
 
 	m_prg->BeginProgram();
@@ -246,7 +252,7 @@ int	Dice::Render()
 
 	m_prg->Texture("us_dif", 0, m_tx0);
 	m_prg->Texture("us_nor", 1, m_tx1);
-
+	m_prg->Texture("us_cube", 2, m_cube);
 
 	// get the location of uniform
 	GLCamera* cam = GLCamera::globalCamera("3d world");
