@@ -773,6 +773,34 @@ struct LC_COLORB
 };
 
 
+#if defined(_PC_WINDOW_)
+  #pragma pack(push, 1)
+#endif
+struct LC_COLORB3
+{
+	union{ struct{ BYTE r,g,b;}; BYTE m[3]; }		;	// Notice!! the byte order
+
+	LC_COLORB3()									;
+	LC_COLORB3(BYTE R, BYTE G, BYTE B)				;
+	LC_COLORB3(const LC_COLORF& v)					;
+	LC_COLORB3(COLOR32 v)							;	// argument must be a argb(0xFFRRGGBB)
+	LC_COLORB3(const LC_COLORB3&)					;
+	LC_COLORB3& operator=(const LC_COLORB3&)		;
+
+	operator COLOR32 () const						;
+	operator BYTE* ()								;
+	operator const BYTE* () const					;
+	INT operator == (const LC_COLORB3&) const		;
+	INT operator != (const LC_COLORB3&) const		;
+}
+#if defined(_PC_WINDOW_)
+  #pragma pack(pop)
+#else
+  __attribute__((packed))
+#endif
+;
+
+
 struct LC_RECTF
 {
 	union

@@ -313,10 +313,8 @@ struct LCXCOLORB : public LC_COLORB												// Colors Byte(RGBA). color range
   #pragma pack(push, 1)
 #endif
 
-struct LCXCOLORB3																// Colors Byte(RGB). color range [0, 255]. default color r = 255, g = 255, b = 255
+struct LCXCOLORB3 : public LC_COLORB3											// Colors Byte(RGB). color range [0, 255]. default color r = 255, g = 255, b = 255
 {
-	union{ struct{ BYTE r, g, b; };	BYTE m[3];	};								// caution the byte order
-
 	LCXCOLORB3();
 	LCXCOLORB3(BYTE R,BYTE G,BYTE B);
 

@@ -607,6 +607,34 @@ INT LC_COLORB::operator !=(const LC_COLORB& v) const { return r != v.r || g != v
 
 ////////////////////////////////////////
 
+LC_COLORB3::LC_COLORB3() : r(0), g(0), b(0){}
+LC_COLORB3::LC_COLORB3(BYTE R,BYTE G,BYTE B) : r(R), g(G), b(B){}
+
+LC_COLORB3::LC_COLORB3(const LC_COLORF& v)
+{
+	r = (BYTE) lc_min( (v.r * 255.0F), 255.0F );
+	g = (BYTE) lc_min( (v.g * 255.0F), 255.0F );
+	b = (BYTE) lc_min( (v.b * 255.0F), 255.0F );
+}
+
+LC_COLORB3::LC_COLORB3(COLOR32 v)                    { r=BYTE(v>>16);g=BYTE(v>>8);b=BYTE(v>>0);} // v must be a rgb
+LC_COLORB3::LC_COLORB3(const LC_COLORB3& v)          { *this = v;      }
+LC_COLORB3& LC_COLORB3::operator=(const LC_COLORB3& v)
+{
+	r=v.r; g=v.g; b=v.b;
+	return *this;
+}
+
+LC_COLORB3::operator COLOR32 () const                 { return 0xFF000000 | (r<<16) | (g<<8) | b;	}
+LC_COLORB3::operator BYTE* ()                         { return &r;              }
+LC_COLORB3::operator const BYTE* () const             { return (const BYTE*)&r; }
+
+INT LC_COLORB3::operator ==(const LC_COLORB3& v) const { return r == v.r && g == v.g && b == v.b ;	}
+INT LC_COLORB3::operator !=(const LC_COLORB3& v) const { return r != v.r || g != v.g || b != v.b ;	}
+
+
+////////////////////////////////////////
+
 LC_RECTF::LC_RECTF() : x(0), y(0), w(0), h(0){}
 LC_RECTF::LC_RECTF(FLOAT X,FLOAT Y,FLOAT W,FLOAT H) : x(X), y(Y), w(W), h(H){}
 
