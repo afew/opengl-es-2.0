@@ -621,7 +621,7 @@ struct LC_FLOAT4
 		struct{ FLOAT  x,  y,  z,  w; };
 		struct{ FLOAT  a,  b,  c,  d; };
 		struct{ FLOAT _0, _1, _2, _3; };
-		struct{ FLOAT  w,  h,  s,  t; };
+		struct{ FLOAT _w, _h, _s, _t; };
 		FLOAT m[4];
 	};
 
