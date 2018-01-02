@@ -38,6 +38,12 @@
 		339000ED1FBD91340079FF0F /* AVKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 339000EC1FBD912F0079FF0F /* AVKit.framework */; };
 		339000EF1FBD914D0079FF0F /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 339000EE1FBD91480079FF0F /* AVFoundation.framework */; };
 		339000FA1FBD99EB0079FF0F /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 339000F91FBD99E60079FF0F /* CoreMedia.framework */; };
+		3397CD601FFB21C500DCBC35 /* Gui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3397CD561FFB21C300DCBC35 /* Gui.cpp */; };
+		3397CD611FFB21C500DCBC35 /* android_util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3397CD571FFB21C300DCBC35 /* android_util.cpp */; };
+		3397CD621FFB21C500DCBC35 /* Dice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3397CD581FFB21C400DCBC35 /* Dice.cpp */; };
+		3397CD631FFB21C500DCBC35 /* DiceEnv.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3397CD5C1FFB21C400DCBC35 /* DiceEnv.cpp */; };
+		3397CD641FFB21C500DCBC35 /* Sprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3397CD5E1FFB21C400DCBC35 /* Sprite.cpp */; };
+		3397CD651FFB21C500DCBC35 /* MultiTex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 3397CD5F1FFB21C400DCBC35 /* MultiTex.cpp */; };
 		33DD45BA1FBD3AFB006633E6 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 33DD45B31FBD3AFA006633E6 /* libsqlite3.tbd */; };
 		33DD45BB1FBD3AFB006633E6 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 33DD45B41FBD3AFA006633E6 /* libz.tbd */; };
 		33DD45BC1FBD3AFB006633E6 /* libstdc++.6.0.9.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 33DD45B61FBD3AFA006633E6 /* libstdc++.6.0.9.tbd */; };
@@ -93,6 +99,17 @@
 		339000EC1FBD912F0079FF0F /* AVKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVKit.framework; path = System/Library/Frameworks/AVKit.framework; sourceTree = SDKROOT; };
 		339000EE1FBD91480079FF0F /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		339000F91FBD99E60079FF0F /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		3397CD551FFB21C200DCBC35 /* Gui.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gui.h; sourceTree = "<group>"; };
+		3397CD561FFB21C300DCBC35 /* Gui.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Gui.cpp; sourceTree = "<group>"; };
+		3397CD571FFB21C300DCBC35 /* android_util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = android_util.cpp; sourceTree = "<group>"; };
+		3397CD581FFB21C400DCBC35 /* Dice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Dice.cpp; sourceTree = "<group>"; };
+		3397CD591FFB21C400DCBC35 /* MultiTex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiTex.h; sourceTree = "<group>"; };
+		3397CD5A1FFB21C400DCBC35 /* Dice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dice.h; sourceTree = "<group>"; };
+		3397CD5B1FFB21C400DCBC35 /* Sprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sprite.h; sourceTree = "<group>"; };
+		3397CD5C1FFB21C400DCBC35 /* DiceEnv.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DiceEnv.cpp; sourceTree = "<group>"; };
+		3397CD5D1FFB21C400DCBC35 /* DiceEnv.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DiceEnv.h; sourceTree = "<group>"; };
+		3397CD5E1FFB21C400DCBC35 /* Sprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Sprite.cpp; sourceTree = "<group>"; };
+		3397CD5F1FFB21C400DCBC35 /* MultiTex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MultiTex.cpp; sourceTree = "<group>"; };
 		33DD45B21FBD3AFA006633E6 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		33DD45B31FBD3AFA006633E6 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		33DD45B41FBD3AFA006633E6 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -140,6 +157,17 @@
 		330D38321FCCE58A003184BF /* classes */ = {
 			isa = PBXGroup;
 			children = (
+				3397CD571FFB21C300DCBC35 /* android_util.cpp */,
+				3397CD581FFB21C400DCBC35 /* Dice.cpp */,
+				3397CD5A1FFB21C400DCBC35 /* Dice.h */,
+				3397CD5C1FFB21C400DCBC35 /* DiceEnv.cpp */,
+				3397CD5D1FFB21C400DCBC35 /* DiceEnv.h */,
+				3397CD561FFB21C300DCBC35 /* Gui.cpp */,
+				3397CD551FFB21C200DCBC35 /* Gui.h */,
+				3397CD5F1FFB21C400DCBC35 /* MultiTex.cpp */,
+				3397CD591FFB21C400DCBC35 /* MultiTex.h */,
+				3397CD5E1FFB21C400DCBC35 /* Sprite.cpp */,
+				3397CD5B1FFB21C400DCBC35 /* Sprite.h */,
 				330D38331FCCE58A003184BF /* Android.mk */,
 				330D38341FCCE58A003184BF /* App.cpp */,
 				330D38351FCCE58A003184BF /* App.h */,
@@ -330,6 +358,9 @@
 			files = (
 				3363D7C81FC3B3FE009A8DFD /* main.m in Sources */,
 				330D385A1FCCE5AC003184BF /* LcMath2.cpp in Sources */,
+				3397CD641FFB21C500DCBC35 /* Sprite.cpp in Sources */,
+				3397CD621FFB21C500DCBC35 /* Dice.cpp in Sources */,
+				3397CD631FFB21C500DCBC35 /* DiceEnv.cpp in Sources */,
 				330D383C1FCCE58B003184BF /* App.cpp in Sources */,
 				330D383D1FCCE58B003184BF /* app_util.cpp in Sources */,
 				3363D7C21FC3B3FE009A8DFD /* AppDelegate.m in Sources */,
@@ -337,8 +368,11 @@
 				3363D7C91FC3B3FE009A8DFD /* ViewController.mm in Sources */,
 				330D38571FCCE5AC003184BF /* LcBase.cpp in Sources */,
 				330D383F1FCCE58B003184BF /* ogl_util.cpp in Sources */,
+				3397CD601FFB21C500DCBC35 /* Gui.cpp in Sources */,
 				330D38581FCCE5AC003184BF /* LcEuclid.cpp in Sources */,
 				330D383E1FCCE58B003184BF /* app_util.mm in Sources */,
+				3397CD611FFB21C500DCBC35 /* android_util.cpp in Sources */,
+				3397CD651FFB21C500DCBC35 /* MultiTex.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
