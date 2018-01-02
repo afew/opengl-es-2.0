@@ -42,7 +42,7 @@ int Dice::Init(CPVOID, CPVOID, CPVOID, CPVOID)
 		return -1;
 
 
-	m_prg = GLProgram::createFromFile("media/shader/dice.vert", "media/shader/dice.frag");
+	m_prg = GLProgram::createFromFile("media/shader/dice.vert", "media/shader/dice.frag", {std::string("at_pos"), std::string("at_nor"), std::string("at_tzn"), std::string("at_tex")});
 	if(!m_prg)
 		return -1;
 

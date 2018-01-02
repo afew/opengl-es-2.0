@@ -253,7 +253,7 @@ int GLTexture::SetPixel(int w, int h, int f, int t, void* pxl)
 //------------------------------------------------------------------------------
 //------------------------------------------------------------------------------
 
-GLProgram* GLProgram::createFromFile(const char* file_vertexShaderSource, const char* file_fragmentShaderSource)
+GLProgram* GLProgram::createFromFile(const char* file_vertexShaderSource, const char* file_fragmentShaderSource, const std::vector<std::string>& ls_attr)
 {
 	FileData file_vtx(file_vertexShaderSource);
 	FileData file_frg(file_fragmentShaderSource);
@@ -261,7 +261,7 @@ GLProgram* GLProgram::createFromFile(const char* file_vertexShaderSource, const 
 		return NULL;
 
 	GLProgram* ret = new GLProgram;
-	if(0>ret->Init(file_vtx.data(), file_frg.data()))
+	if(0>ret->Init(file_vtx.data(), file_frg.data(), ls_attr))
 	{
 		delete ret;
 		return NULL;
@@ -269,10 +269,10 @@ GLProgram* GLProgram::createFromFile(const char* file_vertexShaderSource, const 
 	return ret;
 }
 
-GLProgram* GLProgram::createFromBuffer(const char* vertexShaderSource, const char* fragmentShaderSource)
+GLProgram* GLProgram::createFromBuffer(const char* vertexShaderSource, const char* fragmentShaderSource, const std::vector<std::string>& ls_attr)
 {
 	GLProgram* ret = new GLProgram;
-	if(0>ret->Init(vertexShaderSource, fragmentShaderSource))
+	if(0>ret->Init(vertexShaderSource, fragmentShaderSource, ls_attr))
 	{
 		delete ret;
 		return NULL;
@@ -293,7 +293,7 @@ GLProgram::~GLProgram()
 	Destroy();
 }
 
-int GLProgram::Init(const char* vertexShaderSource, const char* fragmentShaderSource)
+int GLProgram::Init(const char* vertexShaderSource, const char* fragmentShaderSource, const std::vector<std::string>& ls_attr)
 {
 	if(!vertexShaderSource || !vertexShaderSource)
 		return -1;
@@ -334,7 +334,11 @@ int GLProgram::Init(const char* vertexShaderSource, const char* fragmentShaderSo
 	glAttachShader(m_prog, m_vert);
 	glAttachShader(m_prog, m_frag);
 
-	glBindAttribLocation(m_prog, 0, "at_pos");
+	for(auto i=0; i<ls_attr.size(); ++i)
+	{
+		auto attr = ls_attr[i];
+		glBindAttribLocation(m_prog, (int)i, attr.c_str());
+	}
 
 	GLint isLinked;
 	glLinkProgram(m_prog);
@@ -352,14 +356,14 @@ int GLProgram::Init(const char* vertexShaderSource, const char* fragmentShaderSo
 	return 0;
 }
 
-int GLProgram::InitFromFile(const char* vertexShaderFile, const char* fragmentShaderFile)
+int GLProgram::InitFromFile(const char* vertexShaderFile, const char* fragmentShaderFile, const std::vector<std::string>& ls_attr)
 {
 	FileData vert_data(vertexShaderFile);
 	FileData frag_data(fragmentShaderFile);
 
 	char* vertShaderSource = vert_data.data();
 	char* fragShaderSource = frag_data.data();
-	return this->Init(vertShaderSource, fragShaderSource);
+	return this->Init(vertShaderSource, fragShaderSource, ls_attr);
 }
 
 void GLProgram::Destroy()

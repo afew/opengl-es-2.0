@@ -72,15 +72,15 @@ protected:
 	std::map<int, GLTexture*>	m_texture;
 
 public:
-	static GLProgram* createFromFile(const char* file_vertexShaderSource, const char* file_fragmentShaderSource);
-	static GLProgram* createFromBuffer(const char* vertexShaderSource, const char* fragmentShaderSource);
+	static GLProgram* createFromFile(const char* file_vertexShaderSource, const char* file_fragmentShaderSource, const std::vector<std::string>& ls_attr={std::string("at_pos")});
+	static GLProgram* createFromBuffer(const char* vertexShaderSource, const char* fragmentShaderSource, const std::vector<std::string>& ls_attr={std::string("at_pos")});
 
 public:
 	GLProgram();
 	virtual ~GLProgram();
 
-	int  Init(const char* vertexShaderSource, const char* fragmentShaderSource);
-	int  InitFromFile(const char* vertexShaderFile, const char* fragmentShaderFile);
+	int  Init(const char* vertexShaderSource, const char* fragmentShaderSource, const std::vector<std::string>& ls_attr={std::string("at_pos")});
+	int  InitFromFile(const char* vertexShaderFile, const char* fragmentShaderFile, const std::vector<std::string>& ls_attr={std::string("at_pos")});
 	void Destroy();
 	void BeginProgram();
 	void EndProgram();
